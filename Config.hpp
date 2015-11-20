@@ -51,8 +51,16 @@ public:
     }
 
     bool operator<(const CellType &rhs) const noexcept {
-        return x < rhs.x || (!(rhs.x < x) && y < rhs.y);
+        return y < rhs.y || (!(rhs.y < y) && x < rhs.x);
     }
+    bool operator==(const CellType &rhs) const noexcept {
+        return y == rhs.y && x == rhs.x;
+    }
+    
+    u64 toInt() const noexcept { 
+        return (y<<3) + x; 
+    }
+
 };
 
 using Cells = std::vector<CellType>;
