@@ -1,0 +1,15 @@
+language: cpp
+compiler:
+    - gcc-4.8
+    - clang
+install:
+    - if [ "$CXX" = "g++" ]; then
+      sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test;
+      sudo apt-get -qq update;
+      sudo apt-get -qq install g++-4.8;
+      export CXX="g++-4.8";
+      fi
+    - $CXX --version
+script:
+    - cd ./test && make clean && make && ./test.out
+      #- cd ../benchmark && make clean && make benchmark && ./benchmark.out ffotest/end40.pos
