@@ -35,4 +35,9 @@ TEST_F(ConfigTest, CellTypeTest) {
     EXPECT_EQ(cells[2], CellType(1,0));
     EXPECT_EQ(cells[3], CellType(1,1));
 
+    EXPECT_EQ(CellType("g1"), CellType(0,6));
+    EXPECT_EQ(CellType(4,5), CellType("f5"));
+    EXPECT_EQ(CellType(7,4).toString(), "e8");
+
 }
+

@@ -5,6 +5,8 @@
 #include <vector>
 #include <utility>
 #include <limits>
+#include <string>
+#include <cassert>
 
 namespace crosswalk {
 
@@ -35,6 +37,13 @@ public:
     CellType(u32 y, u32 x) :
         y(y),x(x) {}
 
+    CellType(const std::string &pos) :
+        y(pos[1]-'1'), x(pos[0]-'a') {
+            assert(0<=y && y<8);
+            assert(0<=x && x<8);
+        }
+
+
     CellType(const CellType &rhs) noexcept {
         y = rhs.y;
         x = rhs.x;
@@ -64,6 +73,14 @@ public:
     
     u64 toInt() const noexcept { 
         return (y<<3) + x; 
+    }
+
+    std::string toString() const noexcept {
+        std::string ret;
+        ret += std::string(1, 'a' + x);
+        ret += std::string(1, '1' + y);
+
+        return ret;
     }
 
 };
