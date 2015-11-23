@@ -34,6 +34,11 @@ private:
 public:
     CellType(u32 y, u32 x) :
         y(y),x(x) {}
+
+    CellType(const CellType &rhs) noexcept {
+        y = rhs.y;
+        x = rhs.x;
+    }
     
     u32 getY() const noexcept {
         return y;
