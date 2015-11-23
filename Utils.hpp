@@ -9,6 +9,7 @@
 
 namespace crosswalk {
 
+    template<class = void>
     CellState switchCellState(CellState color) noexcept {
         if(color == CellState::BLACK)
             return CellState::WHITE;

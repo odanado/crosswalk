@@ -2,10 +2,9 @@
 #define INCLUDE_CROSSWALK_ENDGAME_EVAL_HPP
 
 #include "Board.hpp"
+#include "Utils.hpp"
 
 namespace crosswalk {
-
-CellState switchCellState(CellState) noexcept;
 
 class EndGameEval {
 public:
