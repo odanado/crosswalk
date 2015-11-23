@@ -16,8 +16,8 @@ namespace crosswalk {
             return CellState::BLACK;
     }
 
-    template<class Eval>
-    void moveOrdering(Cells &cells, const Board &board, CellState color, const Eval &eval, i64 depth) noexcept {
+    template<class Eval,class Compare>
+    void moveOrdering(Cells &cells, const Board &board, CellState color,  i64 depth, const Eval &eval, const Compare &comp) noexcept {
         std::array<i64, 64> order;
 
         for(const auto &cell : cells) {
@@ -27,8 +27,8 @@ namespace crosswalk {
         }
 
         std::sort(cells.begin(), cells.end(),
-                [order](const CellType &cell1, const CellType &cell2) {
-                return order[cell1.toInt()] > order[cell2.toInt()];
+                [order, comp](const CellType &cell1, const CellType &cell2) {
+                return comp(order[cell1.toInt()],order[cell2.toInt()]);
                 });
 
     }
