@@ -5,7 +5,7 @@
 
 namespace crosswalk {
 
-CellState switchCellState(CellState);
+CellState switchCellState(CellState) noexcept;
 
 class EndGameEval {
 public:
