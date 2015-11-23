@@ -5,6 +5,7 @@
 #include "Board.hpp"
 #include <algorithm>
 #include <iostream>
+#include <array>
 
 namespace crosswalk {
 
@@ -13,6 +14,23 @@ namespace crosswalk {
             return CellState::WHITE;
         else
             return CellState::BLACK;
+    }
+
+    template<class Eval>
+    void moveOrdering(Cells &cells, const Board &board, CellState color, const Eval &eval, i64 depth) noexcept {
+        std::array<i64, 64> order;
+
+        for(const auto &cell : cells) {
+            auto nextBoard(board);
+            nextBoard.putStone(color,cell);
+            order[cell.toInt()] = -negaAlpha(nextBoard, switchCellState(color), color, eval, minValue<i64>(), maxValue<i64>(), depth);
+        }
+
+        std::sort(cells.begin(), cells.end(),
+                [order](const CellType &cell1, const CellType &cell2) {
+                return order[cell1.toInt()] > order[cell2.toInt()];
+                });
+
     }
 
     template<class Eval>
