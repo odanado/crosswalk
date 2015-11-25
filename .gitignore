@@ -1,6 +1,10 @@
 # Mac
 .DS_store
 
+# Othello Data
+.ggf
+.json
+
 # Compiled Object files
 *.slo
 *.lo
