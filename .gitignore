@@ -2,8 +2,9 @@
 .DS_store
 
 # Othello Data
-.ggf
-.json
+*.ggf
+*.json
+*.log
 
 # Compiled Object files
 *.slo
