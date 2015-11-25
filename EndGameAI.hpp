@@ -16,6 +16,7 @@ private:
     i64 nodeCount;
     i64 leafCount;
     i64 score;
+    i64 moveOrderingHeight;
 public:
     CellType operator()(const Board &board, CellState color) noexcept {
         nodeCount = 0;
@@ -68,6 +69,14 @@ public:
     i64 getScore() const noexcept {
         return score;
     }
+
+    i64 getMoveOrderingHeight() const noexcept {
+        return moveOrderingHeight;
+    }
+
+    void setMoveOrderingHeight(i64 moveOrderingHeight) noexcept {
+        this->moveOrderingHeight = moveOrderingHeight;
+    }
 private:
     EndGameEval eval;
     CellState myColor;
@@ -85,6 +94,10 @@ private:
         auto cells = board.makeReversibleCells(color);
         if(cells.empty()) {
             return -dfs(board, switchCellState(color), -beta, -alpha);
+        }
+
+        if(64 - board.getTurnCount() >= moveOrderingHeight) {
+            moveOrdering(cells, board, color, 4, eval, std::greater<i64>());
         }
 
         i64 value;
