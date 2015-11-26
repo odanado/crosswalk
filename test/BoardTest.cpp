@@ -165,3 +165,12 @@ TEST_F(BoardTest, isFinished) {
     board = Board(0xffefff5f7f3f1f0f, 0x001000a080c0e0f0);
     EXPECT_EQ(board.isFinished(), true);
 }
+
+TEST_F(BoardTest, getReversibleCount) {
+    using namespace crosswalk;
+    auto board = Board(0x008080C0C48C8080,0x0010783F3B737E79);
+
+    EXPECT_EQ(board.getReversibleCount(CellState::BLACK), 10);
+    EXPECT_EQ(board.getReversibleCount(CellState::WHITE),  0);
+}
+

@@ -72,6 +72,16 @@ public:
         return std::move(cells);
     }
 
+    i64 getReversibleCount(CellState color) const noexcept {
+        u64 reversiblePos;
+        if(color == CellState::BLACK)
+            reversiblePos = makeReversiblePos(black, white);
+        else
+            reversiblePos = makeReversiblePos(white, black);
+
+        return bitCount(reversiblePos);
+    }
+
     bool putStone(CellState color, const CellType &cell) noexcept {
         return putStone(color, cell.getY(), cell.getX());
     }
@@ -108,7 +118,11 @@ public:
 private:
     u64 black, white;
     u64 countStone(u64 bitBoard) const noexcept {
-        return __builtin_popcount(bitBoard) + __builtin_popcount(bitBoard >> 32);
+        return bitCount(bitBoard);
+    }
+
+    u64 bitCount(u64 bit) const noexcept {
+        return __builtin_popcount(bit) + __builtin_popcount(bit >> 32);
     }
 
     bool existStone(u64 bitBoard, u64 y, u64 x) const noexcept {
