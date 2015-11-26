@@ -40,8 +40,6 @@ public:
         //moveOrdering(cells, board, color, 8, eval, std::greater<i64>());
         ffhSort(cells, board, color);
 
-        std::cout<<cells.begin()->toString()<<std::endl;
-
         for(const auto &cell : cells) {
             auto nextBoard = board;
             nextBoard.putStone(color, cell);
