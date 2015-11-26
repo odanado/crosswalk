@@ -35,7 +35,12 @@ public:
         myColor = color;
         auto cells = board.makeReversibleCells(color);
 
-        moveOrdering(cells, board, color, 8, eval, std::greater<i64>());
+        // 根の並び替えをどっちにした方がいいのか分からない
+
+        //moveOrdering(cells, board, color, 8, eval, std::greater<i64>());
+        ffhSort(cells, board, color);
+
+        std::cout<<cells.begin()->toString()<<std::endl;
 
         for(const auto &cell : cells) {
             auto nextBoard = board;
@@ -104,10 +109,7 @@ private:
             return -dfs(board, switchCellState(color), -beta, -alpha);
         }
 
-        if(64 - board.getTurnCount() >= moveOrderingHeight) {
-            moveOrdering(cells, board, color, 4, eval, std::greater<i64>());
-        }
-        else if(64 - board.getTurnCount() >= ffhHeight) {
+        if(64 - board.getTurnCount() >= ffhHeight) {
             ffhSort(cells, board, color);
         }
         else {
