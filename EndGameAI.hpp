@@ -16,7 +16,8 @@ private:
     i64 nodeCount;
     i64 leafCount;
     i64 score;
-    i64 moveOrderingHeight;
+    i64 moveOrderingHeight; // move orderingを行う高さの下限
+    i64 ffhHeight; // 速さ優先探索を行う高さの下限
 public:
     CellType operator()(const Board &board, CellState color) noexcept {
         nodeCount = 0;
@@ -77,6 +78,13 @@ public:
     void setMoveOrderingHeight(i64 moveOrderingHeight) noexcept {
         this->moveOrderingHeight = moveOrderingHeight;
     }
+
+    i64 getFFHHeight() const noexcept {
+        return ffhHeight;
+    }
+    void setFFHHeight(i64 ffhHeight) noexcept {
+        this->ffhHeight = ffhHeight;
+    }
 private:
     EndGameEval eval;
     CellState myColor;
@@ -99,6 +107,13 @@ private:
         if(64 - board.getTurnCount() >= moveOrderingHeight) {
             moveOrdering(cells, board, color, 4, eval, std::greater<i64>());
         }
+        else if(64 - board.getTurnCount() >= ffhHeight) {
+            ffhSort(cells, board, color);
+        }
+        else {
+            // 通常のalpha beta
+            return negaAlpha(board, color, alpha, beta);
+        }
 
         i64 value;
         i64 a=alpha;
@@ -120,6 +135,49 @@ private:
 
         return a;
     }
+
+    i64 negaAlpha(const Board &board, CellState color, i64 alpha, i64 beta) {
+        assert(alpha <= beta);
+        ++nodeCount;
+        if(board.isFinished()) {
+            ++leafCount;
+            if(color == myColor)
+                return eval(board, myColor);
+            else
+                return -eval(board, myColor);
+        }
+
+        auto cells = board.makeReversibleCells(color);
+        if(cells.empty()) {
+            return -negaAlpha(board, switchCellState(color), -beta, -alpha);
+        }
+        auto nextColor = switchCellState(color);
+        for(const auto &cell : cells) {
+            auto nextBoard = board;
+            nextBoard.putStone(color, cell);
+            alpha = std::max(alpha, -negaAlpha(nextBoard, nextColor, -beta, -alpha));
+            if(alpha >= beta)
+                return beta;
+        }
+
+        return alpha;
+    }
+
+    void ffhSort(Cells &cells, const Board &board, CellState color) noexcept {
+        std::array<i64, 64> order;
+        auto nextColor = switchCellState(color);
+        for(const auto &cell : cells) {
+            auto nextBoard(board);
+            nextBoard.putStone(color,cell);
+            order[cell.toInt()] = nextBoard.getReversibleCount(nextColor);
+        }
+
+        std::sort(cells.begin(), cells.end(),
+                [order](const CellType &cell1, const CellType &cell2) {
+                return order[cell1.toInt()] < order[cell2.toInt()];
+                });
+    }
+
 };
 
 } // end crosswalk
