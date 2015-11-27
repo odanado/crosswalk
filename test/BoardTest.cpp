@@ -174,3 +174,12 @@ TEST_F(BoardTest, getReversibleCount) {
     EXPECT_EQ(board.getReversibleCount(CellState::WHITE),  0);
 }
 
+TEST_F(BoardTest, hash) {
+    using namespace crosswalk;
+    Board board1;
+    Board board2 = Board(0xffefff5f7f3f1f0f, 0x001000a080c0e0f0);
+
+    EXPECT_EQ(std::hash<Board>()(board1), std::hash<Board>()(board1));
+    EXPECT_NE(std::hash<Board>()(board1), std::hash<Board>()(board2));
+}
+

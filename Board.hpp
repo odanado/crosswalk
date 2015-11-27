@@ -5,6 +5,7 @@
 #include <cassert>
 #include <utility>
 #include <string>
+#include <functional>
 
 namespace crosswalk {
 
@@ -302,7 +303,18 @@ private:
 
 };
     
+
 } // crosswalk
+
+namespace std {
+template <>
+class hash<crosswalk::Board>{
+public:
+    size_t operator()(const crosswalk::Board &board) const {
+        return hash<crosswalk::u64>()(board.getBitBoard(crosswalk::CellState::BLACK)) ^ hash<crosswalk::u64>()(board.getBitBoard(crosswalk::CellState::WHITE));
+    }
+};
+}
 
 #endif
 
