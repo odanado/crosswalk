@@ -5,6 +5,7 @@
 #include "EndGameEval.hpp"
 #include "Config.hpp"
 #include "Utils.hpp"
+#include "TranspositionTable.hpp"
 
 #include <iostream>
 #include <functional>
@@ -18,6 +19,7 @@ private:
     i64 score;
     i64 moveOrderingHeight; // move orderingを行う高さの下限
     i64 ffhHeight; // 速さ優先探索を行う高さの下限
+    i64 cacheHeight; // トランスポジションテーブルを使用する高さの下限
 public:
     CellType operator()(const Board &board, CellState color) noexcept {
         nodeCount = 0;
@@ -57,6 +59,17 @@ public:
             }
         }
 
+        std::cout<<"size: "<<cache.size()<<std::endl;
+        std::cout<<"max_size: "<<cache.max_size()<<std::endl;
+        std::cout<<"bucket_count: "<<cache.bucket_count()<<std::endl;
+        std::cout<<"max_bucket_count: "<<cache.max_bucket_count()<<std::endl;
+        std::cout<<"load_factor: "<<cache.load_factor()<<std::endl;
+        for(auto &e : cache) {
+            auto &board = e.first;
+            auto hash_value = std::hash<Board>()(board);
+            auto &window = e.second;
+            //std::cout<<hash_value<<": "<<window.getAlpha()<<", "<<window.getBeta()<<std::endl;
+        }
         score = maxValue;
 
         return result;
@@ -88,9 +101,17 @@ public:
     void setFFHHeight(i64 ffhHeight) noexcept {
         this->ffhHeight = ffhHeight;
     }
+
+    i64 getCacheHeight() const noexcept {
+        return cacheHeight;
+    }
+    void setCacheHeight(i64 cacheHeight) noexcept {
+        this->cacheHeight = cacheHeight;
+    }
 private:
     EndGameEval eval;
     CellState myColor;
+    TranspositionTable cache;
     i64 dfs(const Board &board, CellState color, i64 alpha, i64 beta) noexcept {
         assert(alpha <= beta);
         ++nodeCount;
@@ -104,7 +125,32 @@ private:
 
         auto cells = board.makeReversibleCells(color);
         if(cells.empty()) {
-            return -dfs(board, switchCellState(color), -beta, -alpha);
+            i64 score = -dfs(board, switchCellState(color), -beta, -alpha);
+            /*
+            if(beta <= score)
+                cache.update(board, score, maxValue<i64>());
+            else if(score <= alpha)
+                cache.update(board, minValue<i64>(), score);
+            else
+                cache.update(board, score, score);
+            */
+
+            return score;
+        }
+
+        if(64 - board.getTurnCount() >= cacheHeight) {
+            if(cache.count(board)) {
+                const auto &window = cache[board];
+                if(window.getBeta() <= alpha)
+                    return window.getBeta();
+                if(window.getAlpha() >= beta)
+                    return window.getAlpha();
+                if(window.getAlpha() == window.getBeta())
+                    return window.getAlpha();
+                
+                alpha = std::max(alpha, window.getAlpha());
+                beta = std::min(beta, window.getBeta());
+            }
         }
 
         if(64 - board.getTurnCount() >= ffhHeight) {
@@ -127,10 +173,18 @@ private:
             value = -dfs(nextBoard, switchCellState(color), -b, -a);
             if(a<value && value<beta && !first) a=-dfs(nextBoard, switchCellState(color),-beta, -value);
             a=std::max(a, value);
-            if(a>=beta)
+            if(a>=beta) {
+                cache.update(board, a, maxValue<i64>());
                 return a;
+            }
             b=a+1;
             first=false;
+        }
+        if(a > alpha) {
+            cache.update(board, a, a);
+        }
+        else {
+            cache.update(board, minValue<i64>(), a);
         }
 
         return a;
