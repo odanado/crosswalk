@@ -311,7 +311,14 @@ template <>
 class hash<crosswalk::Board>{
 public:
     size_t operator()(const crosswalk::Board &board) const {
-        return hash<crosswalk::u64>()(board.getBitBoard(crosswalk::CellState::BLACK)) ^ hash<crosswalk::u64>()(board.getBitBoard(crosswalk::CellState::WHITE));
+        using namespace crosswalk;
+        size_t seed = 0;
+        auto black_hash = hash<u64>()(board.getBitBoard(CellState::BLACK));
+        auto white_hash = hash<u64>()(board.getBitBoard(CellState::WHITE));
+
+        seed ^= black_hash + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+        seed ^= white_hash + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+        return seed;
     }
 };
 }
