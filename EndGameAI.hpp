@@ -59,17 +59,6 @@ public:
             }
         }
 
-        std::cout<<"size: "<<cache.size()<<std::endl;
-        std::cout<<"max_size: "<<cache.max_size()<<std::endl;
-        std::cout<<"bucket_count: "<<cache.bucket_count()<<std::endl;
-        std::cout<<"max_bucket_count: "<<cache.max_bucket_count()<<std::endl;
-        std::cout<<"load_factor: "<<cache.load_factor()<<std::endl;
-        for(auto &e : cache) {
-            auto &board = e.first;
-            auto hash_value = std::hash<Board>()(board);
-            auto &window = e.second;
-            //std::cout<<hash_value<<": "<<window.getAlpha()<<", "<<window.getBeta()<<std::endl;
-        }
         score = maxValue;
 
         return result;
@@ -107,6 +96,10 @@ public:
     }
     void setCacheHeight(i64 cacheHeight) noexcept {
         this->cacheHeight = cacheHeight;
+    }
+
+    const TranspositionTable& getCache() const noexcept {
+        return cache;
     }
 private:
     EndGameEval eval;
