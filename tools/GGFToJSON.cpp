@@ -102,7 +102,7 @@ picojson::value parsePlay(const std::string &line, int &pos) {
 }
 
 picojson::value parsePlays(const std::string &line) {
-    picojson::array ret;
+    picojson::object ret;
     int pos = -1;
 
     // 置き石の情報が来るまで読み飛ばし
@@ -117,13 +117,15 @@ picojson::value parsePlays(const std::string &line) {
         }
     }
 
+    int turn = 1;
     if(pos != -1) {
         while(line[pos]!=';') {
             auto play = parsePlay(line, pos);
             if(!play.is<picojson::null>())
-                ret.push_back(play);
+                ret[std::to_string(turn++)] = play;
         }
     }
+    ret["turnCount"] = picojson::value(static_cast<double>(turn-1));
     return picojson::value(ret);
 }
 
@@ -131,12 +133,12 @@ picojson::value getScore(picojson::value &&gameData) {
     picojson::object ret;
     auto&& data = gameData.get<picojson::object>();
     auto&& boardData = data["board"].get<picojson::object>();
-    auto&& playsData = data["plays"].get<picojson::array>();
+    auto&& playsData = data["plays"].get<picojson::object>();
 
     auto board = crosswalk::Board(hexToInt(boardData["black"].get<std::string>()), hexToInt(boardData["white"].get<std::string>()));
 
-    for(auto &plays : playsData) {
-        auto&& play = plays.get<picojson::object>();
+    for(int i = 1;i <= static_cast<int>(playsData["turnCount"].get<double>());i++) {
+        auto&& play = playsData[std::to_string(i)].get<picojson::object>();
         auto&& turn = play["turn"].get<std::string>();
         auto&& cell = play["cell"].get<std::string>();
         if(turn == "black") {
@@ -146,7 +148,6 @@ picojson::value getScore(picojson::value &&gameData) {
             board.putStone(crosswalk::CellState::WHITE, cell);
         }
     }
-
 
     double black = board.countStone(crosswalk::CellState::BLACK);
     double white = board.countStone(crosswalk::CellState::WHITE);
@@ -189,11 +190,11 @@ bool is8x8(const std::string &line) {
 
 bool valid(picojson::value &gameData) {
     auto &&boardData = gameData.get<picojson::object>()["board"].get<picojson::object>();
-    auto &&playsData = gameData.get<picojson::object>()["plays"].get<picojson::array>();
+    auto &&playsData = gameData.get<picojson::object>()["plays"].get<picojson::object>();
     auto board = crosswalk::Board(hexToInt(boardData["black"].get<std::string>()), hexToInt(boardData["white"].get<std::string>()));
 
-    for(auto &plays : playsData) {
-        auto&& play = plays.get<picojson::object>();
+    for(int i = 1;i <= static_cast<int>(playsData["turnCount"].get<double>());i++) {
+        auto&& play = playsData[std::to_string(i)].get<picojson::object>();
         auto&& turn = play["turn"].get<std::string>();
         auto&& cell = play["cell"].get<std::string>();
         if(turn == "black") {
