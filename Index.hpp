@@ -15,8 +15,8 @@ namespace crosswalk {
 class Index {
     static constexpr i32 BOARD_SIZE = 8;
     std::array<i32, 9> pow3; // 3のべき乗
-    std::array<i32, BOARD_SIZE> horizontal;
-    std::array<i32, BOARD_SIZE> vertical;
+    std::array<i32, 6> horizontal;
+    std::array<i32, 6> vertical;
 
     std::array<std::size_t, 9> diagSize; // 対角線の長さ
 
@@ -47,18 +47,18 @@ public:
     }
 
     void update(i64 black, i64 white) noexcept {
-        for(std::size_t i = 0;i < BOARD_SIZE; i++) {
+        for(std::size_t i = 0;i < horizontal.size(); i++) {
             horizontal[i] = 0;
             vertical[i] = 0;
             for(std::size_t j = 0; j < BOARD_SIZE; j++) {
-                if(black>>(j+(i<<3))&1)
+                if(black >> (j + ((i + 1) << 3)) & 1)
                     horizontal[i] += pow3[j];
-                if(white>>(j+(i<<3))&1)
+                if(white >> (j + ((i + 1) << 3)) & 1)
                     horizontal[i] += 2 * pow3[j];
 
-                if(black>>(i+(j<<3))&1)
+                if(black >> (i + 1 +(j << 3)) & 1)
                     vertical[i] += pow3[j];
-                if(white>>(i+(j<<3))&1)
+                if(white>>(i + 1 + (j << 3)) & 1)
                     vertical[i] += 2 * pow3[j];
             }
         }
