@@ -149,7 +149,7 @@ private:
         if(64 - board.getTurnCount() >= ffhHeight) {
             ffhSort(cells, board, color);
         }
-        else {
+        if(64 - board.getTurnCount() < ffhHeight && 64 - board.getTurnCount() < cacheHeight) {
             // 通常のalpha beta
             return negaAlpha(board, color, alpha, beta);
         }
