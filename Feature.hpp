@@ -79,16 +79,16 @@ public:
             horizotal2[0] += encode(black, white, 1, i) * pow3[i];
             horizotal3[0] += encode(black, white, 2, i) * pow3[i];
             horizotal4[0] += encode(black, white, 3, i) * pow3[i];
-            horizotal4[1] += encode(black, white, 4, i) * pow3[i];
-            horizotal3[1] += encode(black, white, 5, i) * pow3[i];
-            horizotal2[1] += encode(black, white, 6, i) * pow3[i];
+            horizotal4[1] += encode(black, white, 4, BOARD_SIZE - i - 1) * pow3[i];
+            horizotal3[1] += encode(black, white, 5, BOARD_SIZE - i - 1) * pow3[i];
+            horizotal2[1] += encode(black, white, 6, BOARD_SIZE - i - 1) * pow3[i];
 
-            vertical2[0] += encode(black, white, i, 1) * pow3[i];
-            vertical3[0] += encode(black, white, i, 2) * pow3[i];
-            vertical4[0] += encode(black, white, i, 3) * pow3[i];
-            vertical4[1] += encode(black, white, i, 4) * pow3[i];
-            vertical3[1] += encode(black, white, i, 5) * pow3[i];
-            vertical2[1] += encode(black, white, i, 6) * pow3[i];
+            vertical2[0] += encode(black, white, i, 6) * pow3[i];
+            vertical3[0] += encode(black, white, i, 5) * pow3[i];
+            vertical4[0] += encode(black, white, i, 4) * pow3[i];
+            vertical4[1] += encode(black, white, BOARD_SIZE - i - 1, 3) * pow3[i];
+            vertical3[1] += encode(black, white, BOARD_SIZE - i - 1, 2) * pow3[i];
+            vertical2[1] += encode(black, white, BOARD_SIZE - i - 1, 1) * pow3[i];
 
             diagonal8[0] += encode(black, white, i, BOARD_SIZE - i - 1) * pow3[i];
             diagonal8[1] += encode(black, white, BOARD_SIZE - i - 1, BOARD_SIZE - i - 1) * pow3[i];
