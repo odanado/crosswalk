@@ -98,15 +98,26 @@ public:
         return !(makeReversiblePos(black, white) | makeReversiblePos(white, black));
     }
 
-    std::string toString() const noexcept {
+    std::string toString(bool axis = false) const noexcept {
         std::string ret;
+        if(axis) {
+            ret += "  ";
+            for(char c = 'a'; c <= 'h'; c++)
+                ret += std::string(1, c) + " ";
+            ret += "\n";
+        }
         for(u64 k=0;k<64;k++) {
+            if(axis && k%8==0) {
+                ret += std::string(1, (k>>3)+'1') + " ";
+            }
             if(existStone(black, k>>3, k&7))
                 ret += "x";
             else if(existStone(white, k>>3, k&7))
                 ret += "o";
             else
                 ret += ".";
+            if(axis)
+                ret += " ";
 
             if((k&7)==7)
                 ret += "\n";
