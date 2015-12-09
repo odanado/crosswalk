@@ -131,6 +131,7 @@ private:
             return score;
         }
 
+        /*
         if(64 - board.getTurnCount() >= cacheHeight) {
             if(cache.count(board)) {
                 const auto &window = cache[board];
@@ -143,8 +144,10 @@ private:
                 
                 alpha = std::max(alpha, window.getAlpha());
                 beta = std::min(beta, window.getBeta());
+                assert(alpha <= beta);
             }
         }
+        */
 
         if(64 - board.getTurnCount() >= ffhHeight) {
             ffhSort(cells, board, color);
@@ -167,18 +170,20 @@ private:
             if(a<value && value<beta && !first) a=-dfs(nextBoard, switchCellState(color),-beta, -value);
             a=std::max(a, value);
             if(a>=beta) {
-                cache.update(board, a, maxValue<i64>());
+                // cache.update(board, a, maxValue<i64>());
                 return a;
             }
             b=a+1;
             first=false;
         }
+        /*
         if(a > alpha) {
             cache.update(board, a, a);
         }
         else {
             cache.update(board, minValue<i64>(), a);
         }
+        */
 
         return a;
     }
