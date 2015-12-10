@@ -98,6 +98,15 @@ public:
         return !(makeReversiblePos(black, white) | makeReversiblePos(white, black));
     }
 
+    bool empty(const CellType &cell) const noexcept {
+        return empty(cell.getY(), cell.getX());
+    }
+
+    bool empty(u64 y, u64 x) const noexcept {
+        return !(existStone(black, y, x) ||
+                existStone(white, y, x));
+    }
+
     std::string toString(bool axis = false) const noexcept {
         std::string ret;
         if(axis) {
