@@ -73,6 +73,119 @@ public:
             pow3[i] = pow3[i-1] * 3;
         }
     }
+
+    i32 getVector2(i32 index) const noexcept {
+        i32 ret = 0;
+        ret += horizotal2[0] == index;
+        ret += horizotal2[1] == index;
+        ret += vertical2[0] == index;
+        ret += vertical2[1] == index;
+
+        return ret;
+    }
+
+    i32 getVector3(i32 index) const noexcept {
+        i32 ret = 0;
+        ret += horizotal3[0] == index;
+        ret += horizotal3[1] == index;
+        ret += vertical3[0] == index;
+        ret += vertical3[1] == index;
+
+        return ret;
+    }
+
+    i32 getVector4(i32 index) const noexcept {
+        i32 ret = 0;
+        ret += horizotal4[0] == index;
+        ret += horizotal4[1] == index;
+        ret += vertical4[0] == index;
+        ret += vertical4[1] == index;
+
+        return ret;
+    }
+
+    i32 getDiagonal4(i32 index) const noexcept {
+        i32 ret = 0;
+        ret += diagonal4[0] == index;
+        ret += diagonal4[1] == index;
+        ret += diagonal4[2] == index;
+        ret += diagonal4[3] == index;
+
+        return ret;
+    }
+
+    i32 getDiagonal5(i32 index) const noexcept {
+        i32 ret = 0;
+        ret += diagonal5[0] == index;
+        ret += diagonal5[1] == index;
+        ret += diagonal5[2] == index;
+        ret += diagonal5[3] == index;
+
+        return ret;
+    }
+
+    i32 getDiagonal6(i32 index) const noexcept {
+        i32 ret = 0;
+        ret += diagonal6[0] == index;
+        ret += diagonal6[1] == index;
+        ret += diagonal6[2] == index;
+        ret += diagonal6[3] == index;
+
+        return ret;
+    }
+
+    i32 getDiagonal7(i32 index) const noexcept {
+        i32 ret = 0;
+        ret += diagonal7[0] == index;
+        ret += diagonal7[1] == index;
+        ret += diagonal7[2] == index;
+        ret += diagonal7[3] == index;
+
+        return ret;
+    }
+
+    i32 getDiagonal8(i32 index) const noexcept {
+        i32 ret = 0;
+        ret += diagonal8[0] == index;
+        ret += diagonal8[1] == index;
+
+        return ret;
+    }
+
+    i32 getEdge2X(i32 index) const noexcept {
+        i32 ret = 0;
+        ret += edge2X[0] == index;
+        ret += edge2X[1] == index;
+        ret += edge2X[2] == index;
+        ret += edge2X[3] == index;
+
+        return ret;
+    }
+
+    i32 getCorner3x3(i32 index) const noexcept {
+        i32 ret = 0;
+        ret += corner3x3[0] == index;
+        ret += corner3x3[1] == index;
+        ret += corner3x3[2] == index;
+        ret += corner3x3[3] == index;
+
+        return ret;
+    }
+
+    i32 getCorner2x5(i32 index) const noexcept {
+        i32 ret = 0;
+        ret += corner2x5[0] == index;
+        ret += corner2x5[1] == index;
+        ret += corner2x5[2] == index;
+        ret += corner2x5[3] == index;
+        ret += corner2x5[4] == index;
+        ret += corner2x5[5] == index;
+        ret += corner2x5[6] == index;
+        ret += corner2x5[7] == index;
+
+        return ret;
+    }
+
     void update(u64 black, u64 white) noexcept {
         init();
         for(std::size_t i = 0; i < BOARD_SIZE; i++) {
@@ -149,7 +262,6 @@ public:
             corner2x5[6] += encode(black, white, BOARD_SIZE - i % 5 - 1, BOARD_SIZE - i / 5 - 1) * pow3[i];
             corner2x5[7] += encode(black, white, BOARD_SIZE - i / 5 - 1, i % 5) * pow3[i];
         }
-
     }
 };
 
