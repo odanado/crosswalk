@@ -58,6 +58,10 @@ private:
             return -dfs(board, switchCellState(color), -beta, -alpha, depth);
         }
 
+        if(depth > 6) {
+            moveOrdering(cells, board, color, 4, eval, std::greater<i64>());
+        }
+
         i64 value;
         i64 a=alpha;
         i64 b=beta;
