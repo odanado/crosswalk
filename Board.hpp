@@ -328,7 +328,7 @@ private:
 
 namespace std {
 template <>
-class hash<crosswalk::Board>{
+struct hash<crosswalk::Board>{
 public:
     size_t operator()(const crosswalk::Board &board) const {
         using namespace crosswalk;
