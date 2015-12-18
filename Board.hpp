@@ -64,7 +64,7 @@ public:
         else
             reversiblePos = makeReversiblePos(white, black);
 
-        for(u64 k=0;k<64;++k) {
+        for(u32 k=0;k<64;++k) {
             if(reversiblePos>>k&1) {
                 cells.emplace_back(k>>3,k&7);
             }
@@ -115,9 +115,9 @@ public:
                 ret += std::string(1, c) + " ";
             ret += "\n";
         }
-        for(u64 k=0;k<64;k++) {
+        for(u32 k=0;k<64;k++) {
             if(axis && k%8==0) {
-                ret += std::string(1, (k>>3)+'1') + " ";
+                ret += std::string(1, static_cast<char>((k>>3)+'1')) + " ";
             }
             if(existStone(black, k>>3, k&7))
                 ret += "x";
