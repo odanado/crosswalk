@@ -66,6 +66,22 @@ i32 encode(u64 black, u64 white, u32 y, u32 x) const noexcept {
         return 0;
 }
 
+i32 normalize(i32 n) const noexcept {
+    i32 base = 1;
+    i32 ret = 0;
+    i32 t = n;
+
+    while(base * 3 < n) base *= 3;
+
+    while(t) {
+        ret += t % 3 * base;
+        base /= 3;
+        t /= 3;
+    }
+
+    return std::min(ret, n);
+}
+
 public:
     Feature() {
         pow3[0] = 1;
