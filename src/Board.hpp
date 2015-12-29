@@ -10,7 +10,9 @@
 
 #ifdef _MSC_VER
 #  include "nmmintrin.h"
-#  define __builtin_popcount _mm_popcnt_u64
+#  define popcnt64(x) _mm_popcnt_u64(x)
+#else
+#  define popcnt64(x) __builtin_popcount(x) + __builtin_popcount(x >> 32)
 #endif
 
 namespace crosswalk {
@@ -149,7 +151,7 @@ private:
     }
 
     u64 bitCount(u64 bit) const noexcept {
-        return __builtin_popcount(bit);
+        return popcnt64(bit);
     }
 
     bool existStone(u64 bitBoard, u64 y, u64 x) const noexcept {
