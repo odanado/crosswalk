@@ -1,4 +1,4 @@
-#include "../src/Board.hpp"
+﻿#include "../src/Board.hpp"
 #include "../src/Config.hpp"
 #include "gtest/gtest.h"
 
