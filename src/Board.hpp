@@ -143,7 +143,7 @@ private:
     }
 
     u64 bitCount(u64 bit) const noexcept {
-        return __builtin_popcount(bit) + __builtin_popcount(bit >> 32);
+        return __popcnt64(bit);
     }
 
     bool existStone(u64 bitBoard, u64 y, u64 x) const noexcept {
