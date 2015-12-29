@@ -1,4 +1,4 @@
-#ifndef INCLUDE_CROSSWALK_INDEX_HPP
+﻿#ifndef INCLUDE_CROSSWALK_INDEX_HPP
 #define INCLUDE_CROSSWALK_INDEX_HPP
 
 #include "Config.hpp"
