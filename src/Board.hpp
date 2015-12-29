@@ -7,7 +7,11 @@
 #include <string>
 #include <functional>
 
-#include "nmmintrin.h"
+
+#ifndef __LINUX__
+#  include "nmmintrin.h"
+#  define __builtin_popcount _mm_popcnt_u64
+#endif
 
 namespace crosswalk {
 
@@ -145,7 +149,7 @@ private:
     }
 
     u64 bitCount(u64 bit) const noexcept {
-        return _mm_popcnt_u64(bit);
+        return __builtin_popcount(bit);
     }
 
     bool existStone(u64 bitBoard, u64 y, u64 x) const noexcept {
