@@ -64,115 +64,115 @@ class MidGameEval {
         return ret;
     }
 
-	i64 stable(const Board &board, CellState color) const {
-		i64 ret = 0;
-		i32 y, x;
+    i64 stable(const Board &board, CellState color) const {
+        i64 ret = 0;
+        i32 y, x;
 
-		if (board.existStone(color, 0, 0)) {
-			y = 1;
-			while (y < 8 && board.existStone(color, y, 0)) {
-				y++;
-			}
-			ret += y;
+        if (board.existStone(color, 0, 0)) {
+            y = 1;
+            while (y < 8 && board.existStone(color, y, 0)) {
+                y++;
+            }
+            ret += y;
 
-			x = 1;
-			while (x < 8 && board.existStone(color, 0, x)) {
-				x++;
-			}
-			ret += x;
-			ret--;
-		}
+            x = 1;
+            while (x < 8 && board.existStone(color, 0, x)) {
+                x++;
+            }
+            ret += x;
+            ret--;
+        }
 
-		if (board.existStone(color, 0, 7)) {
-			y = 1;
-			while (y < 8 && board.existStone(color, y, 7)) {
-				y++;
-			}
-			ret += y;
-			
-			x = 6;
-			while (0 <= x && board.existStone(color, 0, x)) {
-				x--;
-			}
-			if (x != -1) {
-				ret += 7 - x;
-				ret--;
-			}
-		}
+        if (board.existStone(color, 0, 7)) {
+            y = 1;
+            while (y < 8 && board.existStone(color, y, 7)) {
+                y++;
+            }
+            ret += y;
+            
+            x = 6;
+            while (0 <= x && board.existStone(color, 0, x)) {
+                x--;
+            }
+            if (x != -1) {
+                ret += 7 - x;
+                ret--;
+            }
+        }
 
-		if (board.existStone(color, 7, 0)) {
-			y = 6;
-			while (0 <= y && board.existStone(color, y, 0)) {
-				y--;
-			}
-			if (y != -1) {
-				ret += 7 - y;
-			}
-			
-			x = 1;
-			while (x < 8 && board.existStone(color, 7, x)) {
-				x++;
-			}
-			ret += x;
-			ret--;
-		}
+        if (board.existStone(color, 7, 0)) {
+            y = 6;
+            while (0 <= y && board.existStone(color, y, 0)) {
+                y--;
+            }
+            if (y != -1) {
+                ret += 7 - y;
+            }
+            
+            x = 1;
+            while (x < 8 && board.existStone(color, 7, x)) {
+                x++;
+            }
+            ret += x;
+            ret--;
+        }
 
-		if (board.existStone(color, 7, 7)) {
-			y = 6;
-			while (0 <= y && board.existStone(color, y, 7)) {
-				y--;
-			}
-			if (y != -1) {
-				ret += 7 - y;
-			}
+        if (board.existStone(color, 7, 7)) {
+            y = 6;
+            while (0 <= y && board.existStone(color, y, 7)) {
+                y--;
+            }
+            if (y != -1) {
+                ret += 7 - y;
+            }
 
-			x = 6;
-			while (0 <= x && board.existStone(color, 7, x)) {
-				x--;
-			}
-			if (x != -1) {
-				ret += 7 - x;
-				ret--;
-			}
-			if (y == -1 && x == -1)
-				ret++;
-		}
+            x = 6;
+            while (0 <= x && board.existStone(color, 7, x)) {
+                x--;
+            }
+            if (x != -1) {
+                ret += 7 - x;
+                ret--;
+            }
+            if (y == -1 && x == -1)
+                ret++;
+        }
 
-		return ret;
+        return ret;
 
-	}
+    }
 
-	i64 mountain(const Board &board, CellState color) const {
-		i64 ret = 0;
-		bool f;
-		
-		f = board.empty(0, 0) && board.empty(0, 7);
-		for (u32 x = 1; x <= 6; x++) {
-			f &= board.existStone(color, 0, x);
-		}
-		ret += f;
+    i64 mountain(const Board &board, CellState color) const {
+        i64 ret = 0;
+        bool f;
+        
+        f = board.empty(0, 0) && board.empty(0, 7);
+        for (u32 x = 1; x <= 6; x++) {
+            f &= board.existStone(color, 0, x);
+        }
+        ret += f;
 
-		f = board.existStone(color, 7, 0) && board.existStone(color, 7, 7);
-		for (u32 x = 1; x <= 6; x++) {
-			f &= board.existStone(color, 7, x);
-		}
-		ret += f;
+        f = board.existStone(color, 7, 0) && board.existStone(color, 7, 7);
+        for (u32 x = 1; x <= 6; x++) {
+            f &= board.existStone(color, 7, x);
+        }
+        ret += f;
 
-		f = board.existStone(color, 0, 7) && board.existStone(color, 7, 7);
-		for (u32 y = 1; y <= 6; y++) {
-			//f &= board.existStone()
-		}
+        f = board.existStone(color, 0, 7) && board.existStone(color, 7, 7);
+        for (u32 y = 1; y <= 6; y++) {
+            //f &= board.existStone()
+        }
 
-		return ret;
-	}
+        return ret;
+    }
 public:
     i64 operator()(const Board &board, CellState color) const  {
-		if (board.getBitBoard(color) == 0) {
-			return minValue<i64>();
-		}
-		if (board.getBitBoard(switchCellState(color)) == 0) {
-			return maxValue<i64>();
-		}
+        if (board.getBitBoard(color) == 0) {
+            return minValue<i64>();
+        }
+        if (board.getBitBoard(switchCellState(color)) == 0) {
+            return maxValue<i64>();
+        }
         i64 ret = 0;
         for(u32 k = 0; k < 64; k++) {
             ret += eval(board, color, k);
@@ -184,8 +184,8 @@ public:
         ret += board.getReversibleCount(color) * 10;
         ret -= board.getReversibleCount(switchCellState(color)) * 10;
 
-		ret += stable(board, color) * 10;
-		ret -= stable(board, switchCellState(color)) * 10;
+        ret += stable(board, color) * 10;
+        ret -= stable(board, switchCellState(color)) * 10;
 
         return ret;
     }
