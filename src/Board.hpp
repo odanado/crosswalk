@@ -8,7 +8,7 @@
 #include <functional>
 
 
-#ifndef __LINUX__
+#ifdef _MSC_VER
 #  include "nmmintrin.h"
 #  define __builtin_popcount _mm_popcnt_u64
 #endif
