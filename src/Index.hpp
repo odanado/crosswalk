@@ -35,8 +35,8 @@ public:
         for(std::size_t i = 0; i < diagSize.size(); i++) {
             if(i < 5) {
                 diagSize[i] = i + 4;
-                diagLeftOrigin[i] = i + 3;
-                diagRightOrigin[i] = 4 - i;
+                diagLeftOrigin[i] = static_cast<i32>(i + 3);
+                diagRightOrigin[i] = static_cast<i32>(4 - i);
             }
             else {
                 diagSize[i] = 12 - i;

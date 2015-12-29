@@ -12,7 +12,6 @@ protected:
 TEST_F(ConfigTest, ConstantValueTest) {
     using namespace crosswalk;
     EXPECT_EQ(maxValue<i64>(), -minValue<i64>());
-    EXPECT_EQ(maxValue<u64>(), -minValue<u64>());
 }
 
 TEST_F(ConfigTest, CellTypeTest) {

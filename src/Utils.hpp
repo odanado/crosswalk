@@ -38,10 +38,11 @@ namespace crosswalk {
     i64 negaAlpha(const Board &board, CellState color, CellState myColor, const Eval &eval, i64 alpha, i64 beta, i64 depth) {
         assert(alpha <= beta);
         if(depth == 0) {
-            if(color == myColor)
-                return eval(board, myColor);
+            i64 ret = eval(board, myColor);
+            if (color == myColor)
+                return ret;
             else
-                return -eval(board, myColor);
+                return -ret;
         }
 
         auto cells = board.makeReversibleCells(color);
