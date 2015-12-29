@@ -1,4 +1,4 @@
-#include "../EndGameEval.hpp"
+#include "../src/EndGameEval.hpp"
 #include "gtest/gtest.h"
 
 class EndGameEvalTest : public ::testing::Test {

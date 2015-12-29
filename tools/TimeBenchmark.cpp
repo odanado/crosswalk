@@ -1,6 +1,6 @@
 #include "../picojson/picojson.h"
-#include "../Board.hpp"
-#include "../EndGameAI.hpp"
+#include "../src/Board.hpp"
+#include "../src/EndGameAI.hpp"
 
 #include <sstream>
 #include <iomanip>

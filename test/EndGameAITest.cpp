@@ -1,4 +1,4 @@
-#include "../EndGameAI.hpp"
+#include "../src/EndGameAI.hpp"
 #include "gtest/gtest.h"
 
 class EndGameAITest : public ::testing::Test {

@@ -1,4 +1,4 @@
-#include "../Config.hpp"
+#include "../src/Config.hpp"
 #include "gtest/gtest.h"
 
 #include <algorithm>

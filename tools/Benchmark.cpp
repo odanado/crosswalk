@@ -1,5 +1,5 @@
-#include "../Utils.hpp"
-#include "../EndGameAI.hpp"
+#include "../src/Utils.hpp"
+#include "../src/EndGameAI.hpp"
 #include <cstdio>
 #include <chrono>
 #include <vector>
