@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "crosswalk", "crosswalk\cros
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcxproj", "{2A3A54E1-FB7E-4652-B5A1-C14816476B68}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "benchmark", "benchmark\benchmark.vcxproj", "{8494DF44-2367-455A-AA67-AC47AA9792C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -39,6 +41,16 @@ Global
 		{2A3A54E1-FB7E-4652-B5A1-C14816476B68}.Release|x64.Build.0 = Release|x64
 		{2A3A54E1-FB7E-4652-B5A1-C14816476B68}.Release|x86.ActiveCfg = Release|Win32
 		{2A3A54E1-FB7E-4652-B5A1-C14816476B68}.Release|x86.Build.0 = Release|Win32
+		{8494DF44-2367-455A-AA67-AC47AA9792C7}.Debug|ARM.ActiveCfg = Debug|Win32
+		{8494DF44-2367-455A-AA67-AC47AA9792C7}.Debug|x64.ActiveCfg = Debug|x64
+		{8494DF44-2367-455A-AA67-AC47AA9792C7}.Debug|x64.Build.0 = Debug|x64
+		{8494DF44-2367-455A-AA67-AC47AA9792C7}.Debug|x86.ActiveCfg = Debug|Win32
+		{8494DF44-2367-455A-AA67-AC47AA9792C7}.Debug|x86.Build.0 = Debug|Win32
+		{8494DF44-2367-455A-AA67-AC47AA9792C7}.Release|ARM.ActiveCfg = Release|Win32
+		{8494DF44-2367-455A-AA67-AC47AA9792C7}.Release|x64.ActiveCfg = Release|x64
+		{8494DF44-2367-455A-AA67-AC47AA9792C7}.Release|x64.Build.0 = Release|x64
+		{8494DF44-2367-455A-AA67-AC47AA9792C7}.Release|x86.ActiveCfg = Release|Win32
+		{8494DF44-2367-455A-AA67-AC47AA9792C7}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
