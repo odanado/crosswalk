@@ -7,6 +7,8 @@
 #include <string>
 #include <functional>
 
+#include "nmmintrin.h"
+
 namespace crosswalk {
 
 class Board {
@@ -143,7 +145,7 @@ private:
     }
 
     u64 bitCount(u64 bit) const noexcept {
-        return __popcnt64(bit);
+        return _mm_popcnt_u64(bit);
     }
 
     bool existStone(u64 bitBoard, u64 y, u64 x) const noexcept {
