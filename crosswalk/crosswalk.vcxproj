@@ -219,6 +219,7 @@
     <ClInclude Include="..\src\Index.hpp" />
     <ClInclude Include="..\src\MidGameAI.hpp" />
     <ClInclude Include="..\src\MidGameEval.hpp" />
+    <ClInclude Include="..\src\NodeState.hpp" />
     <ClInclude Include="..\src\TableBaseEval.hpp" />
     <ClInclude Include="..\src\TranspositionTable.hpp" />
     <ClInclude Include="..\src\Utils.hpp" />

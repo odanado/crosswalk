@@ -2,6 +2,8 @@
 #define INCLUDE_CROSSWALK_TRANSPOSITION_TABLE_HPP
 
 #include "Board.hpp"
+#include "Config.hpp"
+#include "NodeState.hpp"
 
 #include <unordered_map>
 
@@ -32,27 +34,24 @@ public:
 
 };
 
-class TranspositionTable : public std::unordered_map<Board, AlphaBetaWindow> {
+class TranspositionTable : public std::unordered_map<NodeState, AlphaBetaWindow> {
 private:
     // 登録数の上限
-    i64 registerSize;
+    std::size_t registerSize;
 public:
     TranspositionTable() : 
-        registerSize(1LL << 28) {}
-    void update(const Board &board, i64 alpha, i64 beta) noexcept {
-        auto &window = operator[](board);
-        window.setAlpha(std::max(window.getAlpha(), alpha));
-        window.setBeta(std::min(window.getBeta(), beta));
-        /*
-        if(count(board)) {
-            auto &window = operator[](board);
+        registerSize(1LL << 24) {}
+    void update(const NodeState &nodeState, i64 alpha, i64 beta) noexcept {
+
+        if (this->count(nodeState) != 0) {
+            auto &window = operator[](nodeState);
             window.setAlpha(std::max(window.getAlpha(), alpha));
             window.setBeta(std::min(window.getBeta(), beta));
         }
-        else {
-            emplace(alpha, beta);
+        else if (size() <= registerSize) {
+            this->emplace(nodeState, AlphaBetaWindow(alpha, beta));
         }
-        */
+
     }
 
 };

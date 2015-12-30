@@ -119,22 +119,20 @@ private:
         auto cells = board.makeReversibleCells(color);
         if(cells.empty()) {
             i64 score = -dfs(board, switchCellState(color), -beta, -alpha);
-            /*
             if(beta <= score)
-                cache.update(board, score, maxValue<i64>());
+                cache.update(NodeState(board, color), score, maxValue<i64>());
             else if(score <= alpha)
-                cache.update(board, minValue<i64>(), score);
+                cache.update(NodeState(board, color), minValue<i64>(), score);
             else
-                cache.update(board, score, score);
-            */
+                cache.update(NodeState(board, color), score, score);
 
             return score;
         }
 
-        /*
+        
         if(64 - board.getTurnCount() >= cacheHeight) {
-            if(cache.count(board)) {
-                const auto &window = cache[board];
+            if(cache.count(NodeState(board, color))) {
+                const auto &window = cache[NodeState(board, color)];
                 if(window.getBeta() <= alpha)
                     return window.getBeta();
                 if(window.getAlpha() >= beta)
@@ -147,7 +145,7 @@ private:
                 assert(alpha <= beta);
             }
         }
-        */
+        
 
         if(64 - board.getTurnCount() >= ffhHeight) {
             ffhSort(cells, board, color);
@@ -170,20 +168,20 @@ private:
             if(a<value && value<beta && !first) a=-dfs(nextBoard, switchCellState(color),-beta, -value);
             a=std::max(a, value);
             if(a>=beta) {
-                // cache.update(board, a, maxValue<i64>());
+                cache.update(NodeState(board, color), a, maxValue<i64>());
                 return a;
             }
             b=a+1;
             first=false;
         }
-        /*
+        
         if(a > alpha) {
-            cache.update(board, a, a);
+            cache.update(NodeState(board, color), a, a);
         }
         else {
-            cache.update(board, minValue<i64>(), a);
+            cache.update(NodeState(board, color), minValue<i64>(), a);
         }
-        */
+        
 
         return a;
     }
