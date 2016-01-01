@@ -7,6 +7,8 @@
 #include <string>
 #include <functional>
 
+#include <xmmintrin.h>
+
 
 #ifdef _MSC_VER
 #  include "nmmintrin.h"
@@ -268,64 +270,45 @@ private:
 
     u64 makeReversiblePos(u64 black, u64 white) const noexcept {
         u64 blank = ~(black | white);
-        u64 mobility=0,t,w;
+        u64 mobility=0;
 
-        // 右
-        w = white & 0x7e7e7e7e7e7e7e7e; 
-        t = w & (black << 1);
-        t |= w & (t << 1); t |= w & (t << 1); t |= w & (t << 1);
-        t |= w & (t << 1); t |= w & (t << 1);
-        mobility |= blank & (t << 1);
+        const __m256i white256 = _mm256_set_epi64x(white, white, white, white);
+        const __m256i black256 = _mm256_set_epi64x(black, black, black, black);
+        const __m256i blank256 = _mm256_set_epi64x(blank, blank, blank, blank);
+        const __m256i mask256 = _mm256_set_epi64x(0x7e7e7e7e7e7e7e7e, 0x00ffffffffffff00, 0x007e7e7e7e7e7e00, 0x007e7e7e7e7e7e00);
+        const __m256i shift256 = _mm256_set_epi64x(1, 8, 7, 9);
+        const __m256i w256 = _mm256_and_si256(white256, mask256);
+        __m256i t256, mobility256;
 
-        // 左
-        w = white & 0x7e7e7e7e7e7e7e7e; 
-        t = w & (black >> 1);
-        t |= w & (t >> 1); t |= w & (t >> 1); t |= w & (t >> 1);
-        t |= w & (t >> 1); t |= w & (t >> 1);
-        mobility |= blank & (t >> 1);
+        t256 = _mm256_and_si256(w256, _mm256_sllv_epi64(black256, shift256));
+        t256 = _mm256_or_si256(t256, _mm256_and_si256(w256, _mm256_sllv_epi64(t256, shift256)));
+        t256 = _mm256_or_si256(t256, _mm256_and_si256(w256, _mm256_sllv_epi64(t256, shift256)));
+        t256 = _mm256_or_si256(t256, _mm256_and_si256(w256, _mm256_sllv_epi64(t256, shift256)));
+        t256 = _mm256_or_si256(t256, _mm256_and_si256(w256, _mm256_sllv_epi64(t256, shift256)));
+        t256 = _mm256_or_si256(t256, _mm256_and_si256(w256, _mm256_sllv_epi64(t256, shift256)));
 
-        // 上
-        w = white & 0x00ffffffffffff00;
-        t = w & (black << 8);
-        t |= w & (t << 8); t |= w & (t << 8); t |= w & (t << 8);
-        t |= w & (t << 8); t |= w & (t << 8);
-        mobility |= blank & (t << 8);
+        mobility256 = _mm256_and_si256(blank256, _mm256_sllv_epi64(t256, shift256));
 
-        // 下
-        w = white & 0x00ffffffffffff00;
-        t = w & (black >> 8);
-        t |= w & (t >> 8); t |= w & (t >> 8); t |= w & (t >> 8);
-        t |= w & (t >> 8); t |= w & (t >> 8);
-        mobility |= blank & (t >> 8);
+        mobility |= mobility256.m256i_u64[0];
+        mobility |= mobility256.m256i_u64[1];
+        mobility |= mobility256.m256i_u64[2];
+        mobility |= mobility256.m256i_u64[3];
 
-        // 右上
-        w = white & 0x007e7e7e7e7e7e00;
-        t = w & (black << 7);
-        t |= w & (t << 7); t |= w & (t << 7); t |= w & (t << 7);
-        t |= w & (t << 7); t |= w & (t << 7);
-        mobility |= blank & (t << 7);
 
-        // 左上
-        w = white & 0x007e7e7e7e7e7e00;
-        t = w & (black << 9);
-        t |= w & (t << 9); t |= w & (t << 9); t |= w & (t << 9);
-        t |= w & (t << 9); t |= w & (t << 9);
-        mobility |= blank & (t << 9);
+        t256 = _mm256_and_si256(w256, _mm256_srlv_epi64(black256, shift256));
+        t256 = _mm256_or_si256(t256, _mm256_and_si256(w256, _mm256_srlv_epi64(t256, shift256)));
+        t256 = _mm256_or_si256(t256, _mm256_and_si256(w256, _mm256_srlv_epi64(t256, shift256)));
+        t256 = _mm256_or_si256(t256, _mm256_and_si256(w256, _mm256_srlv_epi64(t256, shift256)));
+        t256 = _mm256_or_si256(t256, _mm256_and_si256(w256, _mm256_srlv_epi64(t256, shift256)));
+        t256 = _mm256_or_si256(t256, _mm256_and_si256(w256, _mm256_srlv_epi64(t256, shift256)));
 
-        // 右下
-        w = white & 0x007e7e7e7e7e7e00;
-        t = w & (black >> 9);
-        t |= w & (t >> 9); t |= w & (t >> 9); t |= w & (t >> 9);
-        t |= w & (t >> 9); t |= w & (t >> 9);
-        mobility |= blank & (t >> 9);
+        mobility256 = _mm256_and_si256(blank256, _mm256_srlv_epi64(t256, shift256));
 
-        // 左下
-        w = white & 0x007e7e7e7e7e7e00;
-        t = w & (black >> 7);
-        t |= w & (t >> 7); t |= w & (t >> 7); t |= w & (t >> 7);
-        t |= w & (t >> 7); t |= w & (t >> 7);
-        mobility |= blank & (t >> 7);
-
+        mobility |= mobility256.m256i_u64[0];
+        mobility |= mobility256.m256i_u64[1];
+        mobility |= mobility256.m256i_u64[2];
+        mobility |= mobility256.m256i_u64[3];
+        
         return mobility;
     }
 
