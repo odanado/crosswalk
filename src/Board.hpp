@@ -10,6 +10,8 @@
 #include <xmmintrin.h>
 
 
+#define SELECTIVE_ASSIGN(a, b, cond, notCond) (_mm256_or_si256(_mm256_and_si256((a),(cond)), _mm256_and_si256((b),(notCond))))
+
 #ifdef _MSC_VER
 #  include "nmmintrin.h"
 #  define popcnt64(x) _mm_popcnt_u64(x)
@@ -188,81 +190,56 @@ private:
         return true;
     }
 
+
     u64 makeReverseBit(u64 black, u64 white, u64 pos) noexcept {
-        u64 rev=0,tmp,mask;
+        u64 rev = 0;
+        
+        const __m256i black256 = _mm256_set_epi64x(black, black, black, black);
+        const __m256i white256 = _mm256_set_epi64x(white, white, white, white);
+        const __m256i pos256 = _mm256_set_epi64x(pos, pos, pos, pos);
+        const __m256i shift256 = _mm256_set_epi64x(1, 8, 7, 9);
+        const __m256i xormask256 = _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff);
 
-        // 右
-        tmp=0;
-        mask = (pos >> 1) & 0x7f7f7f7f7f7f7f7f;
-        while(mask && (mask & white)) {
-            tmp |= mask;
-            mask = (mask >> 1) & 0x7f7f7f7f7f7f7f7f;
+        __m256i bitmask256 = _mm256_set_epi64x(0xfefefefefefefefe, 0xffffffffffffffff, 0x7f7f7f7f7f7f7f7f, 0xfefefefefefefefe);
+        __m256i cond256 = _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff);
+        __m256i notCond256 = _mm256_xor_si256(cond256, xormask256);
+
+        __m256i rev256 = _mm256_setzero_si256();
+        __m256i tmp256 = _mm256_setzero_si256();
+        __m256i mask256;
+
+        mask256 = _mm256_and_si256(_mm256_sllv_epi64(pos256, shift256), bitmask256);
+        for (int i = 0; i < 8; i++) {
+            cond256 = _mm256_andnot_si256(_mm256_cmpeq_epi64(_mm256_and_si256(mask256, white256), _mm256_setzero_si256()), cond256);
+            notCond256 = _mm256_xor_si256(cond256, xormask256);
+            tmp256 = SELECTIVE_ASSIGN(_mm256_or_si256(tmp256, _mm256_and_si256(cond256, mask256)), tmp256, cond256, notCond256);
+            mask256 = SELECTIVE_ASSIGN(_mm256_and_si256(_mm256_sllv_epi64(mask256, shift256), bitmask256), mask256, cond256, notCond256);
         }
-        if(mask & black) rev |= tmp;
 
-        // 左
-        tmp=0;
-        mask = (pos << 1) & 0xfefefefefefefefe;
-        while(mask && (mask & white)) {
-            tmp |= mask;
-            mask = (mask << 1) & 0xfefefefefefefefe;
+        cond256 = _mm256_cmpeq_epi64(_mm256_and_si256(mask256, black256), _mm256_setzero_si256());
+        rev256 = _mm256_andnot_si256(cond256, tmp256);
+
+
+        tmp256 = _mm256_setzero_si256();
+        bitmask256 = _mm256_set_epi64x(0x7f7f7f7f7f7f7f7f, 0xffffffffffffffff, 0xfefefefefefefefe, 0x7f7f7f7f7f7f7f7f);
+        cond256 = _mm256_set_epi64x(0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff);
+        notCond256 = _mm256_xor_si256(cond256, xormask256);
+
+        mask256 = _mm256_and_si256(_mm256_srlv_epi64(pos256, shift256), bitmask256);
+        for (int i = 0; i < 8; i++) {
+            cond256 = _mm256_andnot_si256(_mm256_cmpeq_epi64(_mm256_and_si256(mask256, white256), _mm256_setzero_si256()), cond256);
+            notCond256 = _mm256_xor_si256(cond256, xormask256);
+            tmp256 = SELECTIVE_ASSIGN(_mm256_or_si256(tmp256, _mm256_and_si256(cond256, mask256)), tmp256, cond256, notCond256);
+            mask256 = SELECTIVE_ASSIGN(_mm256_and_si256(_mm256_srlv_epi64(mask256, shift256), bitmask256), mask256, cond256, notCond256);
         }
-        if(mask & black) rev |= tmp;
 
-        // 上
-        tmp=0;
-        mask = (pos << 8);
-        while(mask && (mask & white)) {
-            tmp |= mask;
-            mask = (mask << 8);
-        }
-        if(mask & black) rev |= tmp;
+        cond256 = _mm256_cmpeq_epi64(_mm256_and_si256(mask256, black256), _mm256_setzero_si256());
+        rev256 = _mm256_or_si256(rev256, _mm256_andnot_si256(cond256, tmp256));
 
-        // 下
-        tmp=0;
-        mask = (pos >> 8);
-        while(mask && (mask & white)) {
-            tmp |= mask;
-            mask = (mask >> 8);
-        }
-        if(mask & black) rev |= tmp;
-
-        // 右上
-        tmp=0;
-        mask = (pos << 7) & 0x7f7f7f7f7f7f7f7f;
-        while(mask && (mask & white)) {
-            tmp |= mask;
-            mask = (mask << 7) & 0x7f7f7f7f7f7f7f7f;
-        }
-        if(mask & black) rev |= tmp;
-
-        // 左上
-        tmp=0;
-        mask = (pos << 9) & 0xfefefefefefefefe;
-        while(mask && (mask & white)) {
-            tmp |= mask;
-            mask = (mask << 9) & 0xfefefefefefefefe;
-        }
-        if(mask & black) rev |= tmp;
-
-        // 右下
-        tmp=0;
-        mask = (pos >> 9) & 0x7f7f7f7f7f7f7f7f;
-        while(mask && (mask & white)) {
-            tmp |= mask;
-            mask = (mask >> 9) & 0x7f7f7f7f7f7f7f7f;
-        }
-        if(mask & black) rev |= tmp;
-
-        // 左下
-        tmp=0;
-        mask = (pos >> 7) & 0xfefefefefefefefe;
-        while(mask && (mask & white)) {
-            tmp |= mask;
-            mask = (mask >> 7) & 0xfefefefefefefefe;
-        }
-        if(mask & black) rev |= tmp;
-
+        rev |= rev256.m256i_u64[0];
+        rev |= rev256.m256i_u64[1];
+        rev |= rev256.m256i_u64[2];
+        rev |= rev256.m256i_u64[3];
 
         return rev;
     }
