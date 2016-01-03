@@ -47,6 +47,10 @@ public:
         return countStone(black) + countStone(white);
     }
 
+    i64 getEmptyCount() const noexcept {
+        return 64 - getTurnCount();
+    }
+
     u64 countStone(CellState color) const noexcept {
         if(color == CellState::BLACK)
             return countStone(black);

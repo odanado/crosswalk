@@ -24,9 +24,6 @@
     <ClCompile Include="EndGameAITest.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="EndGameEvalTest.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="IndexTest.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -37,6 +34,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="gtest\gtest-all.cc">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="EndGameTest.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

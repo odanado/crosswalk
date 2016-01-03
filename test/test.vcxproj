@@ -152,7 +152,7 @@
     <ClCompile Include="BoardTest.cpp" />
     <ClCompile Include="ConfigTest.cpp" />
     <ClCompile Include="EndGameAITest.cpp" />
-    <ClCompile Include="EndGameEvalTest.cpp" />
+    <ClCompile Include="EndGameTest.cpp" />
     <ClCompile Include="gtest\gtest-all.cc" />
     <ClCompile Include="gtest\gtest_main.cc" />
     <ClCompile Include="IndexTest.cpp" />
