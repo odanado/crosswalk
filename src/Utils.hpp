@@ -37,7 +37,7 @@ namespace crosswalk {
     template<class Eval>
     i64 negaAlpha(const Board &board, CellState color, CellState myColor, const Eval &eval, i64 alpha, i64 beta, i64 depth) {
         assert(alpha <= beta);
-        if(depth == 0) {
+        if(depth == 0 || board.isFinished()) {
             i64 ret = eval(board, myColor);
             if (color == myColor)
                 return ret;
@@ -47,14 +47,14 @@ namespace crosswalk {
 
         auto cells = board.makeReversibleCells(color);
         if(cells.empty()) {
-            return -negaAlpha(board, switchCellState(color), myColor, eval, -beta, -alpha, depth-1);
+            return -negaAlpha(board, switchCellState(color), myColor, eval, -beta, -alpha, depth);
         }
 
         auto nextColor = switchCellState(color);
         for(const auto &cell : cells) {
             auto nextBoard = board;
             nextBoard.putStone(color, cell);
-            alpha = std::max(alpha, -negaAlpha(nextBoard, nextColor, myColor, eval, -beta, -alpha, depth-1));
+            alpha = std::max(alpha, -negaAlpha(nextBoard, nextColor, myColor, eval, -beta, -alpha, depth - 1));
             
             if(alpha >= beta)
                 return beta;
