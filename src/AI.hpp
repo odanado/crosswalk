@@ -33,7 +33,7 @@ public:
             nextBoard.putStone(color, cell);
 
             i64 evalValue = -dfs(nextBoard, switchCellState(color), -b, -a, depth - 1);
-            if (a < evalValue && evalValue < beta && !first) 
+            if (a < evalValue && evalValue < beta && !first)
                 a = -dfs(nextBoard, switchCellState(color), -beta, -evalValue, depth - 1);
 
             a = std::max(a, evalValue);
@@ -89,6 +89,13 @@ private:
     i64 dfs(const Board &board, CellState color, i64 alpha, i64 beta, i64 depth) noexcept {
         assert(alpha <= beta);
         ++nodeCount;
+        if (board.isFinished()) {
+            ++leafCount;
+            if (color == myColor)
+                return eval(board, myColor);
+            else
+                return -eval(board, myColor);
+        }
 
         if (depth == normalDFSDepth) {
             // ’Êí‚Ìalpha beta
