@@ -48,7 +48,7 @@
     <ClInclude Include="..\src\AI.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\EndGame.hpp">
+    <ClInclude Include="..\src\EndGameAI.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

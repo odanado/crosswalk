@@ -217,7 +217,7 @@
     <ClInclude Include="..\src\AI.hpp" />
     <ClInclude Include="..\src\Board.hpp" />
     <ClInclude Include="..\src\Config.hpp" />
-    <ClInclude Include="..\src\EndGame.hpp" />
+    <ClInclude Include="..\src\EndGameAI.hpp" />
     <ClInclude Include="..\src\Feature.hpp" />
     <ClInclude Include="..\src\Index.hpp" />
     <ClInclude Include="..\src\MidGameAI.hpp" />
