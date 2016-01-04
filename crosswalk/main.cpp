@@ -18,7 +18,7 @@ CellType next(const Board &board, CellState color) {
     if (64 - board.getTurnCount() <= 20) {
         EndGameAI ai;
 
-        auto ret = ai(board, color);
+        auto ret = ai(board, color, board.getEmptyCount());
         std::cout << "last: " << ai.getScore() << std::endl;
 
         return ret;
@@ -146,7 +146,7 @@ void test() {
     Board board(0x008080C0C48C8080, 0x0010783F3B737E79);
     EndGameAI ai;
     auto start = GetTickCount();
-    auto cell = ai(board, CellState::BLACK);
+    auto cell = ai(board, CellState::BLACK, board.getEmptyCount());
     auto end = GetTickCount();
     i64 diff = end - start;
 

@@ -31,7 +31,7 @@ void init(std::vector<TestCase> &tests) {
 void benchmark(const crosswalk::Board &board, crosswalk::CellState color, crosswalk::EndGameAI &ai) {
     using namespace crosswalk;
     auto start = std::chrono::system_clock::now();
-    auto cell = ai(board, color);
+    auto cell = ai(board, color, board.getEmptyCount());
     auto end = std::chrono::system_clock::now();
     i64 diff = std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count();
     auto cache = ai.getCache();
@@ -42,8 +42,8 @@ void benchmark(const crosswalk::Board &board, crosswalk::CellState color, crossw
     printf("leaf: %llu\n",ai.getLeafCount());
     printf("time: %lld [ms]\n",diff);
     printf("nps: %.2fk\n",1.0*ai.getNodeCount()/diff);
-    printf("FFHHeight: %lld\n", ai.getFFHHeight());
-    printf("cacheHeight: %lld\n", ai.getCacheHeight());
+    printf("FFHHeight: %lld\n", ai.getNormalDFSDepth());
+    printf("cacheHeight: %lld\n", ai.getNormalDFSDepth());
     printf("size: %lu\n",cache.size());
     printf("bucket_count: %lu\n",cache.bucket_count());
     printf("load_factor: %f\n",cache.load_factor());
@@ -65,8 +65,7 @@ void run(const crosswalk::Board &board, crosswalk::CellState color, crosswalk::i
     printf("last count: %lld\n",64 - board.getTurnCount());
 
     EndGameAI ai;
-    ai.setCacheHeight(6);
-    ai.setFFHHeight(6);
+    ai.setNormalDFSDepth(6);
     benchmark(board, color, ai);
 }
 

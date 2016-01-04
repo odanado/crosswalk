@@ -9,6 +9,7 @@ namespace crosswalk {
 
 template<class Eval>
 class MoveOrdering {
+public:
     void operator()(Cells &cells, const Board &board, CellState color) noexcept {
         Eval eval;
         moveOrdering(cells, board, color, 8, eval, std::greater<i64>());
