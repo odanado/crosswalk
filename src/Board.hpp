@@ -1,4 +1,4 @@
-#ifndef INCLUDE_CROSSWALK_BOARD_HPP
+﻿#ifndef INCLUDE_CROSSWALK_BOARD_HPP
 #define INCLUDE_CROSSWALK_BOARD_HPP
 
 #include "Config.hpp"
@@ -6,6 +6,12 @@
 #include <utility>
 #include <string>
 #include <functional>
+
+#ifdef _MSC_VER
+#  define popcnt64(x) __popcnt64(x)
+#else
+#  define popcnt64(x) __builtin_popcount(x) + __builtin_popcount(x >> 32)
+#endif
 
 namespace crosswalk {
 
@@ -17,7 +23,7 @@ public:
     Board& operator=(const Board &rhs) noexcept {
         black = rhs.black;
         white = rhs.white;
-
+        
         return *this;
     }
 
@@ -39,6 +45,10 @@ public:
 
     i64 getTurnCount() const noexcept {
         return countStone(black) + countStone(white);
+    }
+
+    i64 getEmptyCount() const noexcept {
+        return 64 - getTurnCount();
     }
 
     u64 countStone(CellState color) const noexcept {
@@ -143,7 +153,7 @@ private:
     }
 
     u64 bitCount(u64 bit) const noexcept {
-        return __builtin_popcount(bit) + __builtin_popcount(bit >> 32);
+        return popcnt64(bit);
     }
 
     bool existStone(u64 bitBoard, u64 y, u64 x) const noexcept {
@@ -260,17 +270,17 @@ private:
 
     u64 makeReversiblePos(u64 black, u64 white) const noexcept {
         u64 blank = ~(black | white);
-        u64 mobility=0,t,w;
+        u64 mobility = 0, t, w;
 
         // 右
-        w = white & 0x7e7e7e7e7e7e7e7e; 
+        w = white & 0x7e7e7e7e7e7e7e7e;
         t = w & (black << 1);
         t |= w & (t << 1); t |= w & (t << 1); t |= w & (t << 1);
         t |= w & (t << 1); t |= w & (t << 1);
         mobility |= blank & (t << 1);
 
         // 左
-        w = white & 0x7e7e7e7e7e7e7e7e; 
+        w = white & 0x7e7e7e7e7e7e7e7e;
         t = w & (black >> 1);
         t |= w & (t >> 1); t |= w & (t >> 1); t |= w & (t >> 1);
         t |= w & (t >> 1); t |= w & (t >> 1);
