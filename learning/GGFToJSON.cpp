@@ -1,5 +1,5 @@
 #include "../picojson/picojson.h"
-#include "../Board.hpp"
+#include "../src/Board.hpp"
 #include <iostream>
 #include <fstream>
 #include <sstream>

@@ -1,5 +1,5 @@
-#include "../Board.hpp"
-#include "../Config.hpp"
+﻿#include "../src/Board.hpp"
+#include "../src/Config.hpp"
 #include "gtest/gtest.h"
 
 #include <algorithm>

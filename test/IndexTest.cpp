@@ -1,4 +1,4 @@
-#include "../Index.hpp"
+#include "../src/Index.hpp"
 #include "gtest/gtest.h"
 
 class IndexTest : public ::testing::Test {
