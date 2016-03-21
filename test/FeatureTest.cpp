@@ -57,3 +57,9 @@ TEST_F(FeatureTest, getDiagonal6) {
     EXPECT_EQ(feature.getDiagonal6(446), 1);
     EXPECT_EQ(feature.getDiagonal6(473), 1);
 }
+TEST_F(FeatureTest, getDiagonal7) {
+    EXPECT_EQ(feature.getDiagonal7(1456), 1);
+    EXPECT_EQ(feature.getDiagonal7(1093), 1);
+    EXPECT_EQ(feature.getDiagonal7(1337), 1);
+    EXPECT_EQ(feature.getDiagonal7(1094), 1);
+}
