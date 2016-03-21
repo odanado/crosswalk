@@ -65,15 +65,15 @@ class Feature {
             return 0;
     }
 
-    i32 normalize(i32 index) const noexcept {
+    i32 normalize(i32 index, int length) const noexcept {
         i32 rindex = 0;
-        std::array<i32, 8> line;
+        std::array<i32, 10> line;
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < length; i++) {
             line[i] = index % 3;
             index /= 3;
         }
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < length; i++) {
             rindex = rindex * 3 + line[i];
         }
 
@@ -81,23 +81,26 @@ class Feature {
     }
 
     i32 normalizeVector(i32 index) const noexcept {
-        return std::min(index, normalize(index));
+        return std::min(index, normalize(index, 8));
     }
 
     i32 normalizeDiagonal4(i32 index) const noexcept {
-        return std::min(index, normalize(index) / 81);
+        return std::min(index, normalize(index, 4));
     }
     i32 normalizeDiagonal5(i32 index) const noexcept {
-        return std::min(index, normalize(index) / 27);
+        return std::min(index, normalize(index, 5));
     }
     i32 normalizeDiagonal6(i32 index) const noexcept {
-        return std::min(index, normalize(index) / 9);
+        return std::min(index, normalize(index, 6));
     }
     i32 normalizeDiagonal7(i32 index) const noexcept {
-        return std::min(index, normalize(index) / 3);
+        return std::min(index, normalize(index, 7));
     }
     i32 normalizeDiagonal8(i32 index) const noexcept {
-        return std::min(index, normalize(index));
+        return std::min(index, normalize(index, 8));
+    }
+    i32 normalizeEdge2X(i32 index) const noexcept {
+        return std::min(index, normalize(index, 10));
     }
 
  public:
@@ -292,19 +295,21 @@ class Feature {
                     encode(black, white, BOARD_SIZE - i - 1, i + 4) * pow3[i];
                 diagonal4[3] += encode(black, white, i + 4, i) * pow3[i];
             }
-            edge2X[0] += encode(black, white, 0, i);
-            edge2X[1] += encode(black, white, i, 7);
-            edge2X[2] += encode(black, white, 7, BOARD_SIZE - i - 1);
-            edge2X[3] += encode(black, white, BOARD_SIZE - i - 1, 0);
+            edge2X[0] += encode(black, white, 0, i) * pow3[i + 1];
+            edge2X[1] += encode(black, white, i, 7) * pow3[i + 1];
+            edge2X[2] +=
+                encode(black, white, 7, BOARD_SIZE - i - 1) * pow3[i + 1];
+            edge2X[3] +=
+                encode(black, white, BOARD_SIZE - i - 1, 0) * pow3[i + 1];
         }
 
-        edge2X[0] += encode(black, white, 1, 1) * pow3[8] +
+        edge2X[0] += encode(black, white, 1, 1) * pow3[0] +
                      encode(black, white, 1, 6) * pow3[9];
-        edge2X[1] += encode(black, white, 1, 6) * pow3[8] +
+        edge2X[1] += encode(black, white, 1, 6) * pow3[0] +
                      encode(black, white, 6, 6) * pow3[9];
-        edge2X[2] += encode(black, white, 6, 6) * pow3[8] +
+        edge2X[2] += encode(black, white, 6, 6) * pow3[0] +
                      encode(black, white, 6, 1) * pow3[9];
-        edge2X[3] += encode(black, white, 6, 1) * pow3[8] +
+        edge2X[3] += encode(black, white, 6, 1) * pow3[0] +
                      encode(black, white, 1, 1) * pow3[9];
 
         for (std::size_t i = 0; i < 9; i++) {
@@ -353,6 +358,8 @@ class Feature {
             diagonal5[i] = normalizeDiagonal5(diagonal5[i]);
             diagonal6[i] = normalizeDiagonal6(diagonal6[i]);
             diagonal7[i] = normalizeDiagonal7(diagonal7[i]);
+
+            edge2X[i] = normalizeEdge2X(edge2X[i]);
         }
     }
 };

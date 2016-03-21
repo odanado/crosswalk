@@ -67,3 +67,7 @@ TEST_F(FeatureTest, getDiagonal8) {
     EXPECT_EQ(feature.getDiagonal8(6479), 1);
     EXPECT_EQ(feature.getDiagonal8(3280), 1);
 }
+TEST_F(FeatureTest, getEdge2X) {
+    EXPECT_EQ(feature.getEdge2X(29528), 3);
+    EXPECT_EQ(feature.getEdge2X(32804), 1);
+}
