@@ -77,3 +77,9 @@ TEST_F(FeatureTest, getCorner3x3) {
     EXPECT_EQ(feature.getCorner3x3(16496), 1);
     EXPECT_EQ(feature.getCorner3x3(10840), 1);
 }
+TEST_F(FeatureTest, getCorner2x5) {
+    EXPECT_EQ(feature.getCorner2x5(56498), 2);
+    EXPECT_EQ(feature.getCorner2x5(57955), 2);
+    EXPECT_EQ(feature.getCorner2x5(30374), 2);
+    EXPECT_EQ(feature.getCorner2x5(29644), 2);
+}

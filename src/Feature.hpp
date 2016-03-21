@@ -380,6 +380,8 @@ class Feature {
 
             edge2X[i] = normalizeEdge2X(edge2X[i]);
             corner3x3[i] = normalizeCorner3x3(corner3x3[i]);
+            corner2x5[i] = std::min(corner2x5[i], corner2x5[i + 4]);
+            corner2x5[i + 4] = corner2x5[i];
         }
     }
 };
