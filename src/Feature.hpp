@@ -96,6 +96,9 @@ class Feature {
     i32 normalizeDiagonal7(i32 index) const noexcept {
         return std::min(index, normalize(index) / 3);
     }
+    i32 normalizeDiagonal8(i32 index) const noexcept {
+        return std::min(index, normalize(index));
+    }
 
  public:
     Feature() {
@@ -342,6 +345,8 @@ class Feature {
             vertical2[i] = normalizeVector(vertical2[i]);
             vertical3[i] = normalizeVector(vertical3[i]);
             vertical4[i] = normalizeVector(vertical4[i]);
+
+            diagonal8[i] = normalizeDiagonal8(diagonal8[i]);
         }
         for (std::size_t i = 0; i < 4; i++) {
             diagonal4[i] = normalizeDiagonal4(diagonal4[i]);
