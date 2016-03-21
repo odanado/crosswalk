@@ -102,6 +102,25 @@ class Feature {
     i32 normalizeEdge2X(i32 index) const noexcept {
         return std::min(index, normalize(index, 10));
     }
+    i32 normalizeCorner3x3(i32 index) const noexcept {
+        i32 idx = index;
+        i32 rindex = 0;
+        std::array<i32, 9> line;
+        for (std::size_t i = 0; i < 9; i++) {
+            line[i] = idx % 3;
+            idx /= 3;
+        }
+        // 対称軸で折り返す
+        std::swap(line[1], line[3]);
+        std::swap(line[2], line[6]);
+        std::swap(line[5], line[7]);
+
+        for (std::size_t i = 0; i < 9; i++) {
+            rindex = 3 * rindex + line[i];
+        }
+
+        return std::min(index, rindex);
+    }
 
  public:
     Feature() {
@@ -360,6 +379,7 @@ class Feature {
             diagonal7[i] = normalizeDiagonal7(diagonal7[i]);
 
             edge2X[i] = normalizeEdge2X(edge2X[i]);
+            corner3x3[i] = normalizeCorner3x3(corner3x3[i]);
         }
     }
 };
