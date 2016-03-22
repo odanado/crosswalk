@@ -83,6 +83,10 @@ public:
         return ret;
     }
 
+    bool vaild() const noexcept {
+        return x < 8 && y < 8;
+    }
+
 };
 
 using Cells = std::vector<CellType>;
