@@ -12,7 +12,7 @@ for file in files:
     newfile = newfile.replace('.ggf', '.data')
     if len(glob.glob(newfile)) == 0:
         print("convert %s -> %s" % (file, newfile))
-        os.system("./ConvertGGF.out < %s > %s" % (file, newfile))
+        os.system("./ConvertGGF.out < %s > %s 2> convert.log" % (file, newfile))
     else:
         print("pass: %s" % (newfile))
 
