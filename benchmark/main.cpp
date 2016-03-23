@@ -65,7 +65,7 @@ void run(const crosswalk::Board &board, crosswalk::CellState color, crosswalk::i
     printf("last count: %lld\n",64 - board.getTurnCount());
 
     EndGameAI ai;
-    ai.setNormalDFSDepth(6);
+    ai.setNormalDFSDepth(4);
     benchmark(board, color, ai);
 }
 
