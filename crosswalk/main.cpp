@@ -2,8 +2,7 @@
 #include "../src/MidGameEval.hpp"
 #include "../src/EndGameAI.hpp"
 
-#include <Windows.h>
-
+#include "Timer.hpp"
 #include <iostream>
 #include <string>
 
@@ -85,9 +84,9 @@ void gameWhite(Board &board) {
             break;
 
         {
-            auto start = GetTickCount();
+            auto start = getMilliSec();
             cell = next(board, myColor);
-            auto end = GetTickCount();
+            auto end = getMilliSec();
             i64 diff = end - start;
 
             put(board, cell, myColor);
@@ -105,9 +104,9 @@ void gameBlack(Board &board) {
     CellType cell(-1, -1);
     while (!board.isFinished()) {
         {
-            auto start = GetTickCount();
+            auto start = getMilliSec();
             cell = next(board, myColor);
-            auto end = GetTickCount();
+            auto end = getMilliSec();
             i64 diff = end - start;
 
             put(board, cell, myColor);
@@ -145,9 +144,9 @@ void game(Board &board, std::string in) {
 void test() {
     Board board(0x008080C0C48C8080, 0x0010783F3B737E79);
     EndGameAI ai;
-    auto start = GetTickCount();
+    auto start = getMilliSec();
     auto cell = ai(board, CellState::BLACK, board.getEmptyCount());
-    auto end = GetTickCount();
+    auto end = getMilliSec();
     i64 diff = end - start;
 
     std::cout << cell.toString() << ": " << ai.getScore() << std::endl;
