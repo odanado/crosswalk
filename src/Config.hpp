@@ -39,8 +39,8 @@ public:
 
     CellType(const std::string &pos) :
         y(pos[1]-'1'), x(pos[0]-'a') {
-            assert(0<=y && y<8);
-            assert(0<=x && x<8);
+            assert(pos == "pa" || 0<=y && y<8);
+            assert(pos == "pa" || 0<=x && x<8);
         }
 
 
