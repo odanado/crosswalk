@@ -39,33 +39,33 @@ TEST_F(FeatureTest, getVector4) {
     EXPECT_EQ(feature.getVector4(4091), 1);
     EXPECT_EQ(feature.getVector4(4253), 1);
 }
-TEST_F(FeatureTest, getDiagonal4) {
-    EXPECT_EQ(feature.getDiagonal4(40), 1);
-    EXPECT_EQ(feature.getDiagonal4(52), 1);
-    EXPECT_EQ(feature.getDiagonal4(50), 1);
-    EXPECT_EQ(feature.getDiagonal4(41), 1);
+TEST_F(FeatureTest, getDiag4) {
+    EXPECT_EQ(feature.getDiag4(40), 1);
+    EXPECT_EQ(feature.getDiag4(52), 1);
+    EXPECT_EQ(feature.getDiag4(50), 1);
+    EXPECT_EQ(feature.getDiag4(41), 1);
 }
-TEST_F(FeatureTest, getDiagonal5) {
-    EXPECT_EQ(feature.getDiagonal5(160), 1);
-    EXPECT_EQ(feature.getDiagonal5(151), 1);
-    EXPECT_EQ(feature.getDiagonal5(158), 1);
-    EXPECT_EQ(feature.getDiagonal5(149), 1);
+TEST_F(FeatureTest, getDiag5) {
+    EXPECT_EQ(feature.getDiag5(160), 1);
+    EXPECT_EQ(feature.getDiag5(151), 1);
+    EXPECT_EQ(feature.getDiag5(158), 1);
+    EXPECT_EQ(feature.getDiag5(149), 1);
 }
-TEST_F(FeatureTest, getDiagonal6) {
-    EXPECT_EQ(feature.getDiagonal6(448), 1);
-    EXPECT_EQ(feature.getDiagonal6(457), 1);
-    EXPECT_EQ(feature.getDiagonal6(446), 1);
-    EXPECT_EQ(feature.getDiagonal6(473), 1);
+TEST_F(FeatureTest, getDiag6) {
+    EXPECT_EQ(feature.getDiag6(448), 1);
+    EXPECT_EQ(feature.getDiag6(457), 1);
+    EXPECT_EQ(feature.getDiag6(446), 1);
+    EXPECT_EQ(feature.getDiag6(473), 1);
 }
-TEST_F(FeatureTest, getDiagonal7) {
-    EXPECT_EQ(feature.getDiagonal7(1456), 1);
-    EXPECT_EQ(feature.getDiagonal7(1093), 1);
-    EXPECT_EQ(feature.getDiagonal7(1337), 1);
-    EXPECT_EQ(feature.getDiagonal7(1094), 1);
+TEST_F(FeatureTest, getDiag7) {
+    EXPECT_EQ(feature.getDiag7(1456), 1);
+    EXPECT_EQ(feature.getDiag7(1093), 1);
+    EXPECT_EQ(feature.getDiag7(1337), 1);
+    EXPECT_EQ(feature.getDiag7(1094), 1);
 }
-TEST_F(FeatureTest, getDiagonal8) {
-    EXPECT_EQ(feature.getDiagonal8(6479), 1);
-    EXPECT_EQ(feature.getDiagonal8(3280), 1);
+TEST_F(FeatureTest, getDiag8) {
+    EXPECT_EQ(feature.getDiag8(6479), 1);
+    EXPECT_EQ(feature.getDiag8(3280), 1);
 }
 TEST_F(FeatureTest, getEdge2X) {
     EXPECT_EQ(feature.getEdge2X(29528), 3);
