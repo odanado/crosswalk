@@ -130,7 +130,7 @@ class Feature {
         }
     }
 
-    i32 getVector2(i32 index) const noexcept {
+    i32 getVector2Count(i32 index) const noexcept {
         i32 ret = 0;
         ret += horizotal2[0] == index;
         ret += horizotal2[1] == index;
@@ -140,7 +140,7 @@ class Feature {
         return ret;
     }
 
-    i32 getVector3(i32 index) const noexcept {
+    i32 getVector3Count(i32 index) const noexcept {
         i32 ret = 0;
         ret += horizotal3[0] == index;
         ret += horizotal3[1] == index;
@@ -150,7 +150,7 @@ class Feature {
         return ret;
     }
 
-    i32 getVector4(i32 index) const noexcept {
+    i32 getVector4Count(i32 index) const noexcept {
         i32 ret = 0;
         ret += horizotal4[0] == index;
         ret += horizotal4[1] == index;
@@ -160,7 +160,7 @@ class Feature {
         return ret;
     }
 
-    i32 getDiag4(i32 index) const noexcept {
+    i32 getDiag4Count(i32 index) const noexcept {
         i32 ret = 0;
         ret += diag4[0] == index;
         ret += diag4[1] == index;
@@ -170,7 +170,7 @@ class Feature {
         return ret;
     }
 
-    i32 getDiag5(i32 index) const noexcept {
+    i32 getDiag5Count(i32 index) const noexcept {
         i32 ret = 0;
         ret += diag5[0] == index;
         ret += diag5[1] == index;
@@ -180,7 +180,7 @@ class Feature {
         return ret;
     }
 
-    i32 getDiag6(i32 index) const noexcept {
+    i32 getDiag6Count(i32 index) const noexcept {
         i32 ret = 0;
         ret += diag6[0] == index;
         ret += diag6[1] == index;
@@ -190,7 +190,7 @@ class Feature {
         return ret;
     }
 
-    i32 getDiag7(i32 index) const noexcept {
+    i32 getDiag7Count(i32 index) const noexcept {
         i32 ret = 0;
         ret += diag7[0] == index;
         ret += diag7[1] == index;
@@ -200,7 +200,7 @@ class Feature {
         return ret;
     }
 
-    i32 getDiag8(i32 index) const noexcept {
+    i32 getDiag8Count(i32 index) const noexcept {
         i32 ret = 0;
         ret += diag8[0] == index;
         ret += diag8[1] == index;
@@ -208,7 +208,7 @@ class Feature {
         return ret;
     }
 
-    i32 getEdge2X(i32 index) const noexcept {
+    i32 getEdge2XCount(i32 index) const noexcept {
         i32 ret = 0;
         ret += edge2X[0] == index;
         ret += edge2X[1] == index;
@@ -218,7 +218,7 @@ class Feature {
         return ret;
     }
 
-    i32 getCorner3x3(i32 index) const noexcept {
+    i32 getCorner3x3Count(i32 index) const noexcept {
         i32 ret = 0;
         ret += corner3x3[0] == index;
         ret += corner3x3[1] == index;
@@ -228,7 +228,7 @@ class Feature {
         return ret;
     }
 
-    i32 getCorner2x5(i32 index) const noexcept {
+    i32 getCorner2x5Count(i32 index) const noexcept {
         i32 ret = 0;
         ret += corner2x5[0] == index;
         ret += corner2x5[1] == index;
