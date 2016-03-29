@@ -2,6 +2,7 @@
 #define INCLUDE_CROSSWALK_FEATURE_HPP
 
 #include "Config.hpp"
+#include "Board.hpp"
 #include <array>
 
 namespace crosswalk {
@@ -34,6 +35,9 @@ class Feature {
     std::array<i32, 4> corner3x3;
     std::array<i32, 8> corner2x5;
 
+    i32 mobility;
+    i32 parity;
+
     void init() {
         horizotal2[0] = horizotal2[1] = 0;
         horizotal3[0] = horizotal3[1] = 0;
@@ -54,6 +58,8 @@ class Feature {
         corner3x3[0] = corner3x3[1] = corner3x3[2] = corner3x3[3] = 0;
         corner2x5[0] = corner2x5[1] = corner2x5[2] = corner2x5[3] = 0;
         corner2x5[4] = corner2x5[5] = corner2x5[6] = corner2x5[7] = 0;
+
+        mobility = parity = 0;
     }
 
     i32 encode(u64 black, u64 white, u32 y, u32 x) const noexcept {
@@ -382,6 +388,12 @@ class Feature {
             corner2x5[i] = std::min(corner2x5[i], corner2x5[i + 4]);
             corner2x5[i + 4] = corner2x5[i];
         }
+
+        Board board(black, white);
+
+        mobility = board.getReversibleCount(crosswalk::CellState::BLACK) -
+                   board.getReversibleCount(crosswalk::CellState::WHITE);
+        parity = board.getEmptyCount();
     }
 
     i32 getVector2(i32 i) const noexcept {
@@ -438,6 +450,10 @@ class Feature {
         assert(i && i < corner3x3.size());
         return corner3x3[i];
     }
+
+    i32 getMobility() const noexcept { return mobility; }
+
+    i32 getParity() const noexcept { return parity; }
 };
 
 }  // namespace crosswalk
