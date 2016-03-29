@@ -265,8 +265,7 @@ class Feature {
             vertical2[1] +=
                 encode(black, white, BOARD_SIZE - i - 1, 1) * pow3[i];
 
-            diag8[0] +=
-                encode(black, white, i, BOARD_SIZE - i - 1) * pow3[i];
+            diag8[0] += encode(black, white, i, BOARD_SIZE - i - 1) * pow3[i];
             diag8[1] +=
                 encode(black, white, BOARD_SIZE - i - 1, BOARD_SIZE - i - 1) *
                 pow3[i];
@@ -275,8 +274,8 @@ class Feature {
                 diag7[0] +=
                     encode(black, white, i, BOARD_SIZE - i - 2) * pow3[i];
                 diag7[1] += encode(black, white, BOARD_SIZE - i - 2,
-                                       BOARD_SIZE - i - 1) *
-                                pow3[i];
+                                   BOARD_SIZE - i - 1) *
+                            pow3[i];
                 diag7[2] +=
                     encode(black, white, BOARD_SIZE - i - 1, i + 1) * pow3[i];
                 diag7[3] += encode(black, white, i + 1, i) * pow3[i];
@@ -286,8 +285,8 @@ class Feature {
                 diag6[0] +=
                     encode(black, white, i, BOARD_SIZE - i - 3) * pow3[i];
                 diag6[1] += encode(black, white, BOARD_SIZE - i - 3,
-                                       BOARD_SIZE - i - 1) *
-                                pow3[i];
+                                   BOARD_SIZE - i - 1) *
+                            pow3[i];
                 diag6[2] +=
                     encode(black, white, BOARD_SIZE - i - 1, i + 2) * pow3[i];
                 diag6[3] += encode(black, white, i + 2, i) * pow3[i];
@@ -297,8 +296,8 @@ class Feature {
                 diag5[0] +=
                     encode(black, white, i, BOARD_SIZE - i - 4) * pow3[i];
                 diag5[1] += encode(black, white, BOARD_SIZE - i - 4,
-                                       BOARD_SIZE - i - 1) *
-                                pow3[i];
+                                   BOARD_SIZE - i - 1) *
+                            pow3[i];
                 diag5[2] +=
                     encode(black, white, BOARD_SIZE - i - 1, i + 3) * pow3[i];
                 diag5[3] += encode(black, white, i + 3, i) * pow3[i];
@@ -308,8 +307,8 @@ class Feature {
                 diag4[0] +=
                     encode(black, white, i, BOARD_SIZE - i - 5) * pow3[i];
                 diag4[1] += encode(black, white, BOARD_SIZE - i - 5,
-                                       BOARD_SIZE - i - 1) *
-                                pow3[i];
+                                   BOARD_SIZE - i - 1) *
+                            pow3[i];
                 diag4[2] +=
                     encode(black, white, BOARD_SIZE - i - 1, i + 4) * pow3[i];
                 diag4[3] += encode(black, white, i + 4, i) * pow3[i];
@@ -383,6 +382,61 @@ class Feature {
             corner2x5[i] = std::min(corner2x5[i], corner2x5[i + 4]);
             corner2x5[i + 4] = corner2x5[i];
         }
+    }
+
+    i32 getVector2(i32 i) const noexcept {
+        assert(0 <= i && i < 4);
+        return i < 2 ? horizotal2[i] : vertical2[i & 1];
+    }
+
+    i32 getVector3(i32 i) const noexcept {
+        assert(0 <= i && i < 4);
+        return i < 2 ? horizotal3[i] : vertical3[i & 1];
+    }
+
+    i32 getVector4(i32 i) const noexcept {
+        assert(0 <= i && i < 4);
+        return i < 2 ? horizotal4[i] : vertical4[i & 1];
+    }
+
+    i32 getDiag4(i32 i) const noexcept {
+        assert(0 <= i && i < diag4.size());
+        return diag4[i];
+    }
+
+    i32 getDiag5(i32 i) const noexcept {
+        assert(0 <= i && i < diag5.size());
+        return diag5[i];
+    }
+
+    i32 getDiag6(i32 i) const noexcept {
+        assert(0 <= i && i < diag6.size());
+        return diag6[i];
+    }
+
+    i32 getDiag7(i32 i) const noexcept {
+        assert(0 <= i && i < diag7.size());
+        return diag7[i];
+    }
+
+    i32 getDiag8(i32 i) const noexcept {
+        assert(0 <= i && i < diag8.size());
+        return diag8[i];
+    }
+
+    i32 getEdge2X(i32 i) const noexcept {
+        assert(0 <= i && i < edge2X.size());
+        return edge2X[i];
+    }
+
+    i32 getCorner2x5(i32 i) const noexcept {
+        assert(0 <= i && i < corner2x5.size());
+        return corner2x5[i];
+    }
+
+    i32 getCorner3x3(i32 i) const noexcept {
+        assert(i && i < corner3x3.size());
+        return corner3x3[i];
     }
 };
 
