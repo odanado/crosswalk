@@ -447,7 +447,7 @@ class Feature {
     }
 
     i32 getCorner3x3(i32 i) const noexcept {
-        assert(i && i < corner3x3.size());
+        assert(0 <= i && i < corner3x3.size());
         return corner3x3[i];
     }
 
