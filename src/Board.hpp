@@ -44,7 +44,7 @@ public:
     }
 
     i64 getTurnCount() const noexcept {
-        return countStone(black) + countStone(white);
+        return countStone(black) + countStone(white) - 4;
     }
 
     i64 getEmptyCount() const noexcept {
