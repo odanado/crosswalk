@@ -73,6 +73,10 @@ public:
     const TranspositionTable& getCache() const noexcept {
         return cache;
     }
+
+    void setEval(const Eval &eval) {
+        this->eval = eval;
+    }
 private:
     Eval eval;
     MoveOrdering moveOrdering;
