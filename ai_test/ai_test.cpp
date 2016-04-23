@@ -30,10 +30,10 @@ template <class AI1, class AI2>
 int play(AI1 ai1, AI2 ai2, Board board) {
     CellState color = CellState::BLACK;
     while (!(board.getEmptyCount() < 16)) {
-        put(ai1, board, color, 7);
+        put(ai1, board, color, 5);
         if (board.getEmptyCount() < 16) break;
 
-        put(ai2, board, color, 7);
+        put(ai2, board, color, 5);
     }
     return lastPlay(board, color);
 }
