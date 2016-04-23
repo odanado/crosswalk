@@ -65,9 +65,11 @@ int main(int argc, char *argv[]) {
     array<tuple<int, int,int>, 2> cnt;
     int n = atoi(argv[1]);
 
+    random_device rng;
+
     for (int i = 0; i < n; i++) {
         std::cerr << i << std::endl;
-        auto board = randomBoard(4, i);
+        auto board = randomBoard(4, rng());
         auto score = play(ai1, ai2, board);
         if(score > 0) ++get<0>(cnt[0]);
         else if(score < 0) ++get<1>(cnt[0]);
