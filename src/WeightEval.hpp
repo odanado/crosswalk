@@ -6,15 +6,24 @@
 #include <fstream>
 #include <sstream>
 
+
 #include "Board.hpp"
 #include "Weight.hpp"
 #include "Feature.hpp"
 
 namespace crosswalk {
 
+enum class WeightPath {
+    SD
+};
+
+template<WeightPath path>
 class WeightEval {
  public:
-    explicit WeightEval(const std::string &weightPath = "") : weightPath(weightPath) {}
+    WeightEval() {
+        if (path == WeightPath::SD) weightPath = "../weight/SD/";
+        loadWeight();
+    }
     i64 operator()(const Board &board, CellState color) const {
         i64 res = 0;
         Feature feature;
@@ -38,7 +47,7 @@ class WeightEval {
             ss << "weight";
             if (stage < 10) ss << "0";
             ss << stage;
-            std::ifstream ifs(ss.str());
+            std::ifstream ifs(weightPath + ss.str());
 
             ifs >> tag >> weight[stage].mobility;
             ifs >> tag >> weight[stage].parity;
