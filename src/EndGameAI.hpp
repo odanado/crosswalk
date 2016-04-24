@@ -15,9 +15,10 @@ public:
     }
 };
 
+template<class Eval>
 class FFHSort {
 public:
-    void operator()(Cells &cells, const Board &board, CellState color) noexcept {
+    void operator()(Cells &cells, const Board &board, CellState color, const Eval &eval) noexcept {
         std::array<i64, 64> order;
         auto nextColor = switchCellState(color);
         for (const auto &cell : cells) {
@@ -33,7 +34,7 @@ public:
     }
 };
 
-using EndGameAI = AI<EndGameEval, FFHSort>;
+using EndGameAI = AI<EndGameEval, FFHSort<EndGameEval>>;
 
 } // end crosswalk
 

@@ -26,7 +26,7 @@ public:
         myColor = color;
         auto cells = board.makeReversibleCells(color);
 
-        moveOrdering(cells, board, color);
+        moveOrdering(cells, board, color, eval);
 
         for (const auto &cell : cells) {
             auto nextBoard = board;
@@ -134,7 +134,7 @@ private:
             assert(alpha <= beta);
         }
 
-        moveOrdering(cells, board, color);
+        moveOrdering(cells, board, color, eval);
 
         i64 value;
         i64 a = alpha;
