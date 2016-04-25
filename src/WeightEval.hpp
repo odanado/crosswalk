@@ -10,6 +10,7 @@
 #include "Board.hpp"
 #include "Weight.hpp"
 #include "Feature.hpp"
+#include "Utils.hpp"
 
 namespace crosswalk {
 
@@ -25,6 +26,14 @@ class WeightEval {
         loadWeight();
     }
     i64 operator()(const Board &board, CellState color) const {
+        // 全滅対策
+        if (board.getBitBoard(color) == 0) {
+            return minValue<i64>();
+        }
+        if (board.getBitBoard(switchCellState(color)) == 0) {
+            return maxValue<i64>();
+        }
+
         i64 res = 0;
         Feature feature;
         auto black = board.getBitBoard(crosswalk::CellState::BLACK);
