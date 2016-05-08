@@ -1,4 +1,6 @@
 workspace/
+ai_test/result/
+learning/dataset/
 
 # Mac
 .DS_store
