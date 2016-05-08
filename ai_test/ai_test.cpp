@@ -30,12 +30,15 @@ template <class AI1, class AI2>
 int play(AI1 ai1, AI2 ai2, Board board) {
     CellState color = CellState::BLACK;
     while (!(board.getEmptyCount() < 16)) {
+        if (board.isFinished()) break;
         put(ai1, board, color, 5);
         if (board.getEmptyCount() < 16) break;
 
         put(ai2, board, color, 5);
     }
-    return lastPlay(board, color);
+    int res = lastPlay(board, color);
+    if(color == CellState::BLACK) return res;
+    else return -res;
 }
 
 Board randomBoard(int n, int seed) {
@@ -58,11 +61,10 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     auto ai1 = MidGameAI<MidGameEval>();
-    auto ai2 = MidGameAI<MidGameEval>();
+    auto ai2 = MidGameAI<WeightEval<WeightPath::SD>>();
     ai1.setNormalDFSDepth(4);
     ai2.setNormalDFSDepth(4);
-    //ai2.setEval(WeightEval("../weight/SD"));
-    array<tuple<int, int,int>, 2> cnt;
+    array<tuple<int, int, int>, 2> cnt;
     int n = atoi(argv[1]);
 
     random_device rng;
@@ -70,19 +72,26 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < n; i++) {
         std::cerr << i << std::endl;
         auto board = randomBoard(4, rng());
+        std::cerr << board.getBitBoard(CellState::BLACK) << ", " << board.getBitBoard(CellState::WHITE) << std::endl;
         auto score = play(ai1, ai2, board);
-        if(score > 0) ++get<0>(cnt[0]);
-        else if(score < 0) ++get<1>(cnt[0]);
-        else ++get<2>(cnt[0]);
+        if (score > 0)
+            ++get<0>(cnt[0]);
+        else if (score < 0)
+            ++get<1>(cnt[0]);
+        else
+            ++get<2>(cnt[0]);
 
         score = play(ai2, ai1, board);
-        if(score > 0) ++get<0>(cnt[1]);
-        else if(score < 0) ++get<1>(cnt[1]);
-        else ++get<2>(cnt[1]);
+        if (score > 0)
+            ++get<0>(cnt[1]);
+        else if (score < 0)
+            ++get<1>(cnt[1]);
+        else
+            ++get<2>(cnt[1]);
     }
 
     for (int i = 0; i < 2; i++) {
-        printf("win: %d, lose: %d, draw: %d\n", get<0>(cnt[i]), get<1>(cnt[i]), get<2>(cnt[i]));
+        printf("win: %d, lose: %d, draw: %d\n", get<0>(cnt[i]), get<1>(cnt[i]),
+               get<2>(cnt[i]));
     }
-
 }
