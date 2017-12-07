@@ -11,7 +11,7 @@ template<class Eval>
 class MoveOrdering {
 public:
     void operator()(Cells &cells, const Board &board, CellState color, const Eval &eval) noexcept {
-        moveOrdering(cells, board, color, 8, eval, std::greater<i64>());
+        moveOrdering(cells, board, color, 5, eval, std::greater<i64>());
     }
 };
 
